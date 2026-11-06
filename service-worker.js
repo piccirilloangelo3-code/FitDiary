@@ -1,8 +1,8 @@
 /* FitLab - shell offline. I dati personali restano in localStorage sul dispositivo. */
-const CACHE_NAME = 'fitlab-pwa-shell-v1';
+const CACHE_NAME = 'fitlab-pwa-shell-v2';
 const APP_ASSETS = [
   './', './index.html', './manifest.webmanifest',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'
+  './icon-192.png', './icon-512.png', './apple-touch-icon.png'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME)
