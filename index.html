@@ -1,0 +1,929 @@
+<!doctype html><html lang="it"><head><meta name="theme-color" content="#07111a">
+<meta name="description" content="FitLab: allenamenti, nutrizione e progressi fisici in un diario personale offline.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FitLab">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FitLab 6.0 · Il tuo diario fitness</title><style>
+:root{color-scheme:dark;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:#0a101a;color:#eaf1fa}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}header{padding:22px 3%;background:#111c2c;border-bottom:1px solid #26364b;display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}h1{margin:0;font-size:27px}h2{margin:0 0 12px;font-size:23px}h3{margin:0 0 9px;font-size:17px}p{line-height:1.5;color:#adbed0}small,.muted{color:#94a9bf}.brand{color:#64e2c0}nav{display:flex;gap:8px;flex-wrap:wrap;padding:13px 3%;background:#0d1724;position:sticky;top:0;z-index:10;border-bottom:1px solid #26364b}button,.btn{border:1px solid #31465d;background:#1b2c40;color:#eaf1fa;border-radius:10px;padding:10px 13px}button:hover{border-color:#6fe0c4}button.active,.primary{background:#147c69;border-color:#21a88b;color:white}.danger{background:#612e3a;border-color:#8d4253}.ghost{background:transparent}main{max-width:1460px;margin:auto;padding:24px 3% 70px}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:15px}.cols{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);gap:18px}.card{background:#121e2e;border:1px solid #293b50;border-radius:16px;padding:19px;margin-bottom:16px}.card.soft{background:#152438}.stat{font-size:29px;font-weight:800;color:#70e7c8}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{justify-content:space-between}.stack{display:grid;gap:10px}label{display:grid;gap:6px;color:#b9c9d8;font-size:13px}input,select,textarea{width:100%;background:#0b1522;color:#edf5fc;border:1px solid #35485e;border-radius:9px;padding:10px;min-width:0}input[type=checkbox]{width:21px;height:21px;accent-color:#33c7a6}input[type=date]{color-scheme:dark}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}.exercise{border:1px solid #30465a;background:#101b2a;padding:13px;border-radius:12px;margin:9px 0}.exercise.done{border-color:#228f78;background:#102c2b}.sets{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.setbtn{min-width:76px;padding:9px;background:#24384e}.setbtn.checked{background:#16866e;border-color:#36d2aa}.tag{display:inline-block;font-size:11px;padding:4px 8px;border-radius:20px;background:#28445b;color:#c6dfef;margin-right:5px}.scroll{max-height:470px;overflow:auto}.foodrow{display:grid;grid-template-columns:minmax(140px,2fr) 80px repeat(4,minmax(55px,1fr)) 42px;gap:6px;align-items:center;margin:7px 0}.foodrow input{padding:8px}.foodrow.head{color:#a6bad0;font-size:11px}.bar{height:11px;background:#2b4054;border-radius:12px;overflow:hidden}.fill{height:100%;background:#3bc9a5;width:0%}.history{max-height:650px;overflow:auto}.historyitem{padding:12px;border-bottom:1px solid #2d4055}.historyitem:hover{background:#1b2d41}.template{border:1px solid #30475c;border-radius:12px;padding:15px;background:#142338}.template button{margin-top:8px}.notice{padding:12px;background:#293b31;border:1px solid #416b55;border-radius:11px;color:#d9eadf;margin:12px 0}.warning{background:#3b3125;border-color:#665237;color:#f5d8a3}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:9px;border-bottom:1px solid #2d4055}canvas{width:100%;height:200px}#toast{position:fixed;bottom:18px;right:18px;background:#174d43;border:1px solid #42d2ad;border-radius:12px;padding:12px 18px;display:none;z-index:100}details{border:1px solid #2a4057;padding:12px;border-radius:10px;margin:10px 0}summary{cursor:pointer;font-weight:650}@media(max-width:850px){.cols{grid-template-columns:1fr}.foodrow{grid-template-columns:minmax(120px,2fr) 65px repeat(4,minmax(48px,1fr)) 36px;gap:3px}.foodrow input{padding:6px;font-size:12px}.card{padding:13px}main{padding:16px 3%}.foodrow.head{font-size:9px}}
+.foodsuggest{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin-top:8px;max-height:250px;overflow:auto}.foodsuggestitem{text-align:left;padding:9px 11px;border:1px solid #35445a;background:#142237;border-radius:9px;color:#eaf1fa}.foodsuggestitem:hover{background:#244263}.foodsuggestitem small{display:block;color:#a9bdd0;margin-top:3px} 
+#progresshistory .historyitem{border:1px solid #34465b;border-radius:10px;margin:8px 0;background:#10202e}
+.exportchecks{display:grid;gap:11px;margin:12px 0}.exportchecks label{display:flex;align-items:center;gap:10px;font-size:14px}.exportchecks input{width:20px;flex:none;accent-color:#39c8a8}
+#recipeitems .recipeitem{display:grid;grid-template-columns:minmax(120px,1fr) 95px 75px 38px;align-items:center;gap:7px;padding:8px 0;border-bottom:1px solid #31465d}
+#recipeitems .recipeitem input{padding:7px}@media(max-width:550px){#recipeitems .recipeitem{grid-template-columns:1fr 72px 52px 32px;font-size:12px}}
+
+.plananalysis{border:1px solid #305768;background:#132b39;padding:11px;border-radius:11px;margin:15px 0;display:grid;gap:6px}
+.plananalysis b{font-size:14px;color:#cde8ed}.plananalysis span{font-size:12px;color:#a8c0cb}.plananalysis strong{font-size:18px;color:#6ef0bb}.plananalysis small{font-size:11px;color:#acc5ce}
+
+/* FITLAB 6.0 / visual system */
+:root{color-scheme:dark;font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;background:#07111a;color:#f0f7f8;--fl-mint:#83ebce;--fl-line:rgba(149,190,198,.16);--fl-ink:#f0f7f8}
+html{scroll-behavior:smooth}body{min-height:100vh;background:radial-gradient(ellipse 55% 35% at 93% 4%,rgba(34,160,138,.14),transparent 67%),radial-gradient(ellipse 42% 35% at 1% 45%,rgba(50,87,144,.15),transparent 67%),#07111a;color:var(--fl-ink)}
+header{padding:24px max(3%,calc((100vw - 1480px)/2));background:linear-gradient(105deg,rgba(17,40,49,.9),rgba(10,26,38,.94));border-bottom:1px solid var(--fl-line)}header h1{display:flex;align-items:center;gap:6px;letter-spacing:-1.4px;font-size:28px;font-weight:830}header h1 small{margin-left:9px;border:1px solid rgba(110,215,190,.23);background:rgba(76,181,156,.09);color:#83ebce;padding:5px 9px;border-radius:9px;font-size:11px;font-weight:700;letter-spacing:0}
+.fit6-brandmark{display:inline-grid;place-items:center;width:39px;height:39px;border-radius:12px;margin-right:8px;background:linear-gradient(135deg,#a4f7da,#34b697);color:#092720;font-weight:900;box-shadow:0 8px 22px rgba(54,194,161,.25)}.brand{color:#86edd1}header .tag{border:1px solid rgba(137,206,186,.2);background:rgba(23,71,75,.45);color:#b9dfd8}
+nav{padding:12px max(3%,calc((100vw - 1480px)/2));background:rgba(8,23,35,.96);border-bottom:1px solid var(--fl-line);backdrop-filter:blur(14px);gap:7px}
+nav button{border:1px solid transparent;border-radius:11px;padding:11px 15px;background:transparent;color:#a8bbc7;font-weight:650;font-size:13px;transition:all .17s ease}nav button:hover{background:rgba(130,226,205,.08);color:white}nav button.active{color:#091f1a;background:linear-gradient(130deg,#9af3d8,#5fcaaa);box-shadow:0 5px 19px rgba(61,187,152,.18);border-color:transparent}
+main{max-width:1480px;padding:32px 3% 90px}h2{font-size:clamp(23px,2vw,31px);letter-spacing:-.75px;line-height:1.25;font-weight:800;margin-bottom:9px}h3{font-size:17px;letter-spacing:-.3px}p{color:#9fb7c5;line-height:1.58}.page>p{margin-top:7px;margin-bottom:24px;max-width:900px}
+.card{background:linear-gradient(155deg,rgba(20,41,52,.96),rgba(13,28,40,.97));border:1px solid var(--fl-line);border-radius:19px;padding:23px;box-shadow:0 14px 40px rgba(0,0,0,.16);margin-bottom:18px}.card.soft{background:#142e3a}.cols{grid-template-columns:minmax(0,1.72fr) minmax(315px,.88fr);gap:19px}.grid{gap:15px}
+button,.btn{background:#1b3543;border:1px solid rgba(156,199,207,.2);color:#ecf6f7;border-radius:11px;padding:10px 14px;font-weight:600;transition:background .15s ease,border-color .15s ease,transform .15s ease}button:hover{background:#254859;border-color:rgba(125,233,204,.65)}button:active{transform:translateY(1px)}.primary,button.active{background:linear-gradient(135deg,#50cba9,#208b7c);color:#061e1a;border-color:transparent;font-weight:790;box-shadow:0 6px 20px rgba(29,169,132,.18)}.primary:hover{background:linear-gradient(135deg,#80ecca,#31ad91);color:#031912}.danger{background:rgba(100,41,58,.53);border-color:rgba(214,123,144,.28);color:#ffbdc9}.danger:hover{background:rgba(138,50,71,.62)}.ghost{background:rgba(136,196,208,.06)}
+label{color:#a3bec9;letter-spacing:.1px;font-weight:570}input,select,textarea{background:#0a1b29;color:#f1f8f8;border:1px solid rgba(146,191,206,.23);border-radius:11px;padding:11px 12px;transition:border-color .16s ease,box-shadow .16s ease}input:focus,select:focus,textarea:focus{outline:none;border-color:#4dd0ac;box-shadow:0 0 0 3px rgba(65,207,171,.14)}input::placeholder{color:#668492}input[type=date]{color-scheme:dark}.stat{color:#a8ffde;letter-spacing:-.7px}.notice{background:rgba(27,88,79,.24);border:1px solid rgba(77,202,159,.24);border-radius:12px;color:#c3ebe0}.notice.warning{background:rgba(123,82,31,.19);border-color:rgba(228,171,80,.27);color:#f1d7ae}
+.tag{background:rgba(59,148,146,.15);color:#a5e7d9;border:1px solid rgba(117,206,191,.17)}.historyitem{border-bottom:1px solid rgba(148,189,203,.13)}.historyitem:hover{background:rgba(124,212,201,.055)}.template{background:linear-gradient(160deg,#162f3e,#0e2331);border:1px solid rgba(122,178,190,.20);border-radius:17px;padding:19px;box-shadow:0 12px 25px rgba(0,0,0,.1)}.template:hover{border-color:rgba(110,227,197,.46)}.exercise{background:#102836;border:1px solid rgba(136,191,207,.18);border-radius:14px;padding:17px}.fit6-exercise{border-left:3px solid #59d8b7}.fit6-exno{background:#244f50;border-radius:9px;color:#baffdf;font-weight:800;font-size:12px;padding:7px 8px}.fit6-exfields{display:grid;grid-template-columns:repeat(3,minmax(72px,1fr)) minmax(84px,.9fr);gap:10px;align-items:end}.fit6-exfields input{font-size:16px;font-weight:750}.fit6-schema{background:rgba(39,120,107,.18);border:1px solid rgba(85,216,177,.2);border-radius:10px;min-height:68px;padding:10px;display:flex;flex-direction:column;justify-content:center;gap:2px;text-align:center;color:#aff4df}.fit6-schema small{font-size:10px;color:#8fbab6;letter-spacing:1.2px}.fit6-schema b{font-size:20px}.fit6-delete{padding:5px 11px;font-size:18px}
+.fit6-empty{padding:40px 25px;border:1px dashed rgba(129,201,198,.3);background:rgba(32,83,82,.08);text-align:center;border-radius:15px}.fit6-empty p{max-width:500px;margin:8px auto 0}.fit6-empty-icon{display:grid;place-items:center;background:#1e4d4b;color:#8bf5d1;width:48px;height:48px;border-radius:15px;margin:0 auto 12px;font-size:30px}.fit6-history{background:rgba(20,45,57,.62);border:1px solid rgba(145,194,207,.15);padding:13px;border-radius:12px;margin:10px 0}.fit6-history-title{display:flex;align-items:center;text-align:left;gap:11px;width:100%;padding:4px;background:transparent;border:0}.fit6-history-title span:nth-child(2){color:#b6d0d6;flex:1;font-weight:500}.fit6-open{color:#80e6c8}.fit6-history-meta{margin:8px 0 4px;font-size:12px}.fit6-history-actions{margin-top:10px}.fit6-history-actions button{padding:7px 10px;font-size:12px}.fit6-history-summary{color:#a5dfd0;margin-bottom:12px;font-size:12px}.fit6-table-scroll{overflow-x:auto}.fit6-compact-table{font-size:12px}.fit6-compact-table td,.fit6-compact-table th{padding:8px 6px;white-space:normal}.fit6-compact-table th{color:#9eb3bf}.fit6-compact-table td:first-child{font-weight:680;color:#dff0ed}
+.fit6-stat{position:relative;min-height:120px;padding:21px}.fit6-stat .stat{font-size:23px!important;margin-top:12px;line-height:1.18}.fit6-stat-icon{position:absolute;right:16px;top:12px;color:rgba(131,235,206,.37);font-weight:800;font-size:25px}.fit6-list-line{display:flex;flex-direction:column;gap:7px;padding:13px 5px}.fit6-list-line small{font-size:12px}
+.foodsuggestitem{background:#132d3a;border:1px solid rgba(139,195,207,.24);border-radius:10px}.foodsuggestitem:hover{background:#1c4954}.foodrow{gap:8px}.foodrow input{border-radius:8px}.bar{background:#1e3744}.fill{background:linear-gradient(90deg,#269879,#87ecca)}
+.fit6-section-lead{padding:10px 0 20px}.fit6-section-lead h2{font-size:clamp(25px,3vw,38px);margin:9px 0}.fit6-section-lead p{max-width:860px}.fit6-eyebrow{font-size:11px;letter-spacing:2px;color:#7de7c6;font-weight:850}.fit6-export-card{padding:26px}.fit6-step{display:flex;gap:13px;align-items:center;margin-bottom:16px;font-size:12px;letter-spacing:1.1px;color:#80dfc2;font-weight:830}.fit6-step span{color:#b8cbd0}.fit6-report-contents{margin:25px 0;border-top:1px solid rgba(126,201,195,.14);padding-top:22px}.fit6-toc>div{display:flex;align-items:center;gap:16px;padding:14px 4px;border-bottom:1px solid rgba(149,197,202,.12);color:#d6e7e8}.fit6-toc b{color:#77ddbf;font-size:12px;min-width:20px}.fit6-download{width:100%;padding:15px 18px;font-size:15px}.fit6-report-preview{display:grid;gap:0}.fit6-report-preview>div{padding:15px 0;border-bottom:1px solid rgba(128,196,198,.16);display:flex;justify-content:space-between;gap:12px;align-items:center}.fit6-report-preview small{font-size:10px;color:#8abbb6;letter-spacing:1.2px}.fit6-report-preview b{text-align:right;font-size:13px}.fit6-tip{background:linear-gradient(140deg,rgba(28,91,78,.35),rgba(12,36,43,.85))}
+@media(max-width:950px){.cols{grid-template-columns:1fr}main{padding:20px 3% 65px}}@media(max-width:640px){header{padding:16px 4%}header h1{font-size:24px}nav{padding:9px 3%;overflow-x:auto;flex-wrap:nowrap}nav button{white-space:nowrap;font-size:12px;padding:9px 10px}main{padding:21px 3% 60px}.card{padding:15px;border-radius:15px}.fit6-exfields{grid-template-columns:repeat(3,minmax(0,1fr))}.fit6-schema{grid-column:1/-1;min-height:45px;flex-direction:row;align-items:center;gap:12px}.fit6-schema b{font-size:17px}.fit6-stat{min-height:110px}.fit6-stat .stat{font-size:21px!important}.foodrow{grid-template-columns:minmax(100px,2fr) 56px repeat(4,minmax(43px,1fr)) 28px;gap:3px}.foodrow input{padding:6px 3px;font-size:11px}}
+</style></head><body><header><div><h1><span class="fit6-brandmark">F</span> Fit<span class="brand">Lab</span> <small>6.0</small></h1><small>Allenati. Registra. Migliora. Tutto nel tuo spazio.</small></div><div class="row"><span class="tag">100% offline</span><span class="tag">Salvataggio nel browser</span></div></header>
+<nav id="nav"><button data-page="home" class="active">⌂ Dashboard</button><button data-page="workout">🏋 Allenamento</button><button data-page="plans">▦ Schede tipo</button><button data-page="nutrition">🍽 Alimentazione</button><button data-page="profile">👤 I miei dati</button><button data-page="exports">📄 Esporta PDF</button></nav><main>
+<section id="home" class="page active"><h2>Il tuo percorso</h2><p>La tua panoramica quotidiana: progressi, allenamenti e alimentazione in un unico posto.</p><div class="grid" id="dashstats"></div><div class="cols"><div class="card"><h3>Ultimi allenamenti</h3><div id="dashwork"></div></div><div class="card"><h3>Ultimi resoconti alimentari</h3><div id="dashfood"></div></div></div></section>
+<section id="workout" class="page"><div class="row between"><div><h2>Diario allenamento</h2><p>Cerca l’esercizio, indica serie, ripetizioni e peso. Una sola riga per esercizio: niente spunte.</p></div><button class="primary" onclick="saveWorkout()">✓ Salva allenamento</button></div><div class="cols"><div><div class="card"><div class="fields"><label>Data allenamento<input id="workdate" type="date"></label><label>Nome sessione<input id="workname" placeholder="Es. Gambe e glutei"></label><label>Durata effettiva (minuti, modificabile)<input id="workduration" type="number" min="5" max="360" value="60" oninput="renderBurnEstimate()"></label><label>Intensità stimata<select id="workintensity" onchange="renderBurnEstimate()"><option value="2.5">Pesi leggeri / tante pause</option><option value="3.5" selected>Pesi moderati (serie e recuperi)</option><option value="5">Pesi impegnativi (multiarticolari)</option><option value="6">Pesi molto intensi</option><option value="3.8">Calisthenics moderato</option><option value="3.9">Pesi moderati con ritmo sostenuto</option><option value="4">Pesi medio-impegnativi</option><option value="4.2">Gambe e multiarticolari moderati</option><option value="4.4">Pesi impegnativi, pause contenute</option><option value="4.5">Full body dinamico</option><option value="4.65">Cardio + mobilità combinati</option><option value="5.8">Circuito con recuperi brevi</option><option value="7.5">Circuito molto intenso</option></select></label><label>Schema predefinito<select id="preset" onchange="applyPreset()"><option value="3x10">3 × 10</option><option value="3x12">3 × 12</option><option value="3x15">3 × 15</option><option value="4x8">4 × 8</option><option value="4x10">4 × 10</option><option value="5x5">5 × 5</option><option value="custom">Personalizzato</option></select></label><label>Serie<input type="number" min="1" max="20" id="newsets" value="3"></label><label>Ripetizioni / secondi<input type="number" min="1" max="600" id="newreps" value="10"></label><label>Carico kg (facoltativo)<input type="number" min="0" step="0.5" id="newkg" placeholder="0"></label></div><div class="row" style="margin-top:13px"><input id="exsearch" placeholder="🔎 Cerca: leg press, squat, lat machine..." oninput="renderCatalogue()" style="flex:2"><select id="exgroup" onchange="renderCatalogue()" style="flex:1"></select></div><div id="catalogue" class="scroll" style="margin-top:10px"></div></div><div class="card"><div class="row between"><h3>Sessione in corso</h3><button class="ghost" onclick="clearWorkout()">Svuota</button></div><div id="session"></div></div></div><aside><div class="card"><h3>La tua sessione</h3><div class="stat" id="workprogress">0 / 0</div><div class="bar"><div id="workfill" class="fill"></div></div><p>La sessione si salva con gli schemi che imposti. Per esempio, Leg Press · 4 × 8 · 90 kg.</p><div class="notice" id="burnestimate"></div></div><div class="card"><h3>Storico allenamenti</h3><div id="workhistory" class="history"></div></div></aside></div></section>
+<section id="plans" class="page"><h2>Schede di allenamento</h2><p>Scegli una scheda per gruppo muscolare o mista: verrà caricata nel diario, dove potrai personalizzare serie, ripetizioni e carichi.</p><div class="row" id="planfilters" style="margin-bottom:15px"></div><div class="grid" id="planlist"></div><div class="notice warning">I tempi derivano da serie, esercizi e recuperi stimati. Le calorie sono intervalli indicativi (±20%), non misure: per il dato della sessione usa durata e intensità reali. Per plank e cardio, il numero indica secondi o minuti secondo l'esercizio.</div></section>
+<section id="nutrition" class="page"><h2>Alimentazione giornaliera</h2><p>Inserisci gli alimenti e le quantità; FitLab stima calorie e macronutrienti per 100 g di alimento (valori indicativi da composizioni alimentari comuni, non certificati per marca). Specifica crudo/cotto e verifica le etichette: olio, salse e cottura cambiano i valori. Poi salva un resoconto datato nella colonna di destra.</p><div class="cols"><div><div class="card"><div class="fields"><label>Data<input id="fooddate" type="date" onchange="loadFoodDraft()"></label><label>Pasto<select id="meal"><option>Colazione</option><option>Pranzo</option><option>Cena</option><option>Spuntino</option></select></label></div><div class="row" style="margin-top:13px"><input id="foodquery" placeholder="Es. 250 g yogurt greco 0% oppure pollo" oninput="suggestFoods()" onkeydown="if(event.key==='Enter')addFood()" style="flex:2"><input id="foodgrams" type="number" min="1" value="100" style="flex:0 0 100px" title="Grammi"><button class="primary" onclick="addFood()">+ Aggiungi</button></div><div id="foodsuggest" class="foodsuggest" style="display:none"></div>
+<div class="notice">⭐ <b>Ricette personali nella ricerca:</b> i pasti creati da te compariranno qui sopra insieme agli alimenti. Seleziona la ricetta per aggiungere tutti i suoi ingredienti al giorno.</div>
+<div class="card" id="recipecard" style="margin-top:15px;background:#14283a;border-color:#386b70">
+  <div class="row between"><h3>🍱 Crea un pasto personalizzato</h3><span class="tag">Ricercabile per sempre</span></div>
+  <p class="muted">Componilo qui, senza modificare il diario del giorno: per esempio “La mia piadina” con piadina, prosciutto e mozzarella.</p>
+  <div class="fields"><label>Nome del pasto<input id="recipename" placeholder="Es. Piadina prosciutto e mozzarella"></label><label>Categoria<select id="recipemeal"><option>Colazione</option><option>Pranzo</option><option>Cena</option><option>Spuntino</option></select></label></div>
+  <div class="row" style="margin-top:12px"><input id="recipequery" placeholder="Cerca ingrediente: piadina, mozzarella..." style="flex:2" oninput="suggestRecipeFoods()" onkeydown="if(event.key==='Enter'){event.preventDefault();addRecipeIngredient()}"><input id="recipegrams" type="number" min="1" value="100" style="flex:0 0 90px" title="Grammi"><button onclick="addRecipeIngredient()">+ Ingrediente</button></div>
+  <div id="recipesuggest" class="foodsuggest" style="display:none"></div>
+  <div id="recipeitems"></div>
+  <div id="recipetotal" class="muted" style="margin-top:10px"></div>
+  <div class="row" style="margin-top:12px"><button class="primary" onclick="saveRecipe()">✓ Salva e rendi ricercabile</button><button onclick="clearRecipe()">Svuota ricetta</button></div>
+</div><div class="card" style="margin-top:14px"><h3>⭐ I miei pasti predefiniti</h3><p class="muted">Crea un pasto usando gli alimenti della tabella, poi salvalo per inserirlo in futuro con un clic. Puoi aggiungere o modificare ogni ingrediente.</p><div class="row"><input id="mealpresetname" placeholder="Es. Colazione yogurt e cereali" style="flex:2"><button onclick="saveMealPreset()">Salva anche dalla tabella del giorno</button></div><input id="mealpresetfilter" placeholder="🔎 Filtra i tuoi pasti salvati" oninput="renderMealPresets()" style="margin-top:10px"><div id="mealpresets" class="history" style="margin-top:12px"></div></div><div class="notice">💡 <b>Come stimare una piadina?</b> Seleziona “piadina classica” e inserisci il peso della confezione (es. 100 g). Aggiungi separatamente prosciutto, mozzarella, olio o altri ripieni. Se è confezionata, usa i valori nutrizionali dell’etichetta: ricette e marche possono variare molto. Anche hamburger, macinato e tonno hanno varianti diverse per grassi e conservazione.</div><p class="muted">Puoi scrivere «350 g pollo», «1 banana», «1 caffè», «1 cornetto» oppure cercare un alimento. La stima usa valori medi per 100 g: verifica le etichette e correggi i valori direttamente in tabella. Per alimenti cotti, scegli la voce “cotto”.</p><div class="foodrow head"><span>Alimento / pasto</span><span>g</span><span>kcal</span><span>prot. g</span><span>grassi g</span><span>carbo g</span><span></span></div><div id="foodrows"></div><div class="row" style="margin-top:15px"><button onclick="addBlankFood()">+ Riga manuale</button><button class="primary" onclick="saveNutrition()">✓ Invia alimentazione giornaliera</button></div></div><div class="card"><h3>Totali della giornata (prima del salvataggio)</h3><div id="foodtotals"></div></div></div><aside><div class="card"><h3>Resoconti giornalieri</h3><p>Seleziona una data per rivedere o modificare la giornata.</p><div id="foodhistory" class="history"></div></div></aside></div></section>
+<section id="profile" class="page"><h2>I miei dati e obiettivi</h2><div class="cols"><div class="card"><h3>Dati personali e fisici</h3><div class="fields"><label>Nome<input id="pname" placeholder="Il tuo nome"></label><label>Data di nascita<input id="pbirth" type="date"></label><label>Sesso biologico per la stima energetica<select id="psex"><option value="m">Maschile</option><option value="f">Femminile</option><option value="none">Non specificato</option></select></label><label>Altezza (cm)<input id="pheight" type="number" min="100" max="250"></label><label>Peso attuale (kg)<input id="pweight" type="number" min="25" max="400" step="0.1"></label><label>Peso obiettivo (kg)<input id="ptargetweight" type="number" min="25" max="400" step="0.1"></label><label>Attività quotidiana<select id="pactivity"><option value="1.2">Sedentaria</option><option value="1.375">Leggera</option><option value="1.55">Moderata</option><option value="1.725">Intensa</option></select></label><label>Obiettivo<select id="pgoal"><option value="cut">Dimagrimento</option><option value="maintain">Mantenimento</option><option value="bulk">Aumento massa</option></select></label><label>Adattamento calorie (kcal/giorno)<input id="padjust" type="number" step="50" placeholder="Es. -400, 0, +250"></label><label>Target proteine (g/kg)<input id="pprotein" type="number" min="0.5" max="3" step="0.1" value="1.6"></label><label>Target grassi (g/kg)<input id="pfat" type="number" min="0.3" max="2" step="0.1" value="0.8"></label><label>Calorie manuali (facoltativo)<input id="pmanual" type="number" min="800" max="7000" placeholder="Sovrascrive la stima"></label></div><div class="row" style="margin-top:16px"><button class="primary" onclick="saveProfile()">Salva profilo e obiettivo</button><button onclick="document.getElementById('progressform').scrollIntoView({behavior:'smooth'})">+ Nuova rilevazione fisica</button></div></div><aside><div class="card"><h3>Fabbisogno stimato</h3><div id="profilecalc"></div><p class="muted">Stima indicativa con Mifflin–St Jeor e moltiplicatore di attività. Non è una prescrizione medica: monitora l'andamento del peso e adegua il target con gradualità.</p></div><div class="card"><h3>Storico peso</h3><div id="weightlist"></div></div><div class="card"><h3>Privacy e dati</h3><p>Tutti i dati rimangono nel browser di questo dispositivo. Il backup JSON permette di trasferirli. Cancellare i dati del sito o usare la modalità privata può eliminarli.</p><button class="danger" onclick="resetAll()">Cancella tutti i dati</button></div></aside></div>
+<div class="card" id="progressform" style="margin-top:16px;border-color:#37796e">
+ <div class="row between"><div><h2>📈 Progressi fisici nel tempo</h2><p>Aggiungi una nuova rilevazione ogni volta che vuoi. Le precedenti rimangono salvate, anche se registri più misure nello stesso giorno.</p></div><span class="tag">Storico non sovrascritto</span></div>
+ <div class="fields">
+  <label>Data della rilevazione<input type="date" id="progdate"></label>
+  <label>Peso (kg)<input type="number" min="20" max="400" step="0.1" id="progweight"></label>
+  <label>Girovita (cm)<input type="number" min="20" max="250" step="0.1" id="progwaist" placeholder="Facoltativo"></label>
+  <label>Fianchi (cm)<input type="number" min="20" max="250" step="0.1" id="proghips" placeholder="Facoltativo"></label>
+  <label>Torace (cm)<input type="number" min="20" max="250" step="0.1" id="progchest" placeholder="Facoltativo"></label>
+  <label>Coscia (cm)<input type="number" min="10" max="140" step="0.1" id="progthigh" placeholder="Facoltativo"></label>
+  <label>Braccio (cm)<input type="number" min="10" max="100" step="0.1" id="progarm" placeholder="Facoltativo"></label>
+  <label>Grasso corporeo stimato (%)<input type="number" min="1" max="75" step="0.1" id="progfat" placeholder="Facoltativo"></label>
+ </div>
+ <label style="margin-top:13px">Note / come ti senti<textarea id="prognotes" rows="2" placeholder="Es. Girovita diminuito, più forza nelle gambe, misurazione mattutina..."></textarea></label>
+ <div class="row" style="margin-top:12px"><button class="primary" onclick="saveProgressEntry()">✓ Registra nuova rilevazione</button><span class="muted">Inserisci peso e/o almeno una misura. Puoi aggiungere anche solo una nota.</span></div>
+ <div id="progresssummary" class="grid" style="margin-top:17px"></div>
+ <h3 style="margin-top:18px">Cronologia completa delle rilevazioni</h3>
+ <div id="progresshistory"></div>
+</div></section>
+
+<section id="exports" class="page fit6-export-page">
+ <div class="fit6-section-lead"><span class="fit6-eyebrow">DIARIO E PROGRESSI</span><h2>Il tuo report, senza complicazioni.</h2><p>Scegli una data. FitLab prepara un PDF ordinato con i dati anagrafici, l’allenamento e l’alimentazione di quel giorno, seguiti dal confronto delle misure dall’inizio fino alla data scelta.</p></div>
+ <div class="cols"><div class="card fit6-export-card"><div class="fit6-step">01 <span>SELEZIONA IL GIORNO</span></div><label>Data del report<input id="reportstart" type="date" onchange="previewReport()"></label>
+ <div class="fit6-report-contents"><div class="fit6-step">02 <span>CONTENUTO DEL PDF</span></div><div class="fit6-toc"><div><b>01</b><span>Dati anagrafici</span></div><div><b>02</b><span>Allenamento e schemi (es. 4 × 8)</span></div><div><b>03</b><span>Alimentazione e macronutrienti</span></div><div><b>04</b><span>Progresso iniziale → data scelta</span></div></div></div>
+ <button class="primary fit6-download" onclick="downloadReportPdf()">↓ Genera report PDF</button>
+ </div><aside><div class="card"><div class="fit6-step">ANTEPRIMA</div><div id="reportpreview" class="muted">Seleziona un giorno per vedere quali dati saranno inclusi.</div><button class="ghost" style="width:100%;margin-top:18px" onclick="previewReport()">↻ Aggiorna anteprima</button></div><div class="card fit6-tip"><h3>Un esercizio, una riga.</h3><p>Il PDF sintetizza le tue serie: <b>Squat bilanciere · 4 × 8 · 80 kg</b>. Le misure intermedie rimangono nell’app, ma il report mostra solo il confronto tra inizio e giorno scelto.</p></div></aside></div>
+</section></main><div id="toast"></div><script>
+const EXERCISES={"Gambe e glutei": ["Squat bilanciere", "Squat goblet", "Squat multipower", "Front squat", "Hack squat", "Leg press", "Leg press piedi alti", "Affondi camminati", "Affondi indietro", "Affondi bulgari", "Step up", "Stacco rumeno", "Stacco da terra", "Stacco sumo", "Leg curl seduto", "Leg curl sdraiato", "Leg extension", "Hip thrust", "Glute bridge", "Kickback cavo", "Abductor machine", "Adductor machine", "Calf raise in piedi", "Calf raise seduto", "Good morning", "Pull through cavo"], "Schiena": ["Lat machine presa larga", "Lat machine presa stretta", "Trazioni alla sbarra", "Trazioni assistite", "Rematore bilanciere", "Rematore manubrio", "Rematore macchina", "Pulley basso", "Pulldown braccia tese", "Face pull", "Iperestensioni lombari", "Stacco da terra"], "Petto": ["Panca piana bilanciere", "Panca inclinata bilanciere", "Panca piana manubri", "Panca inclinata manubri", "Chest press", "Croci manubri", "Croci ai cavi", "Pec deck", "Push up", "Dip alle parallele"], "Spalle": ["Military press", "Shoulder press manubri", "Shoulder press macchina", "Alzate laterali", "Alzate frontali", "Alzate posteriori", "Reverse pec deck", "Arnold press", "Scrollate"], "Braccia": ["Curl bilanciere", "Curl manubri", "Curl martello", "Curl panca Scott", "Curl cavo", "Pushdown tricipiti", "French press", "Estensioni tricipiti sopra testa", "Dip panca", "Curl inverso"], "Core": ["Plank", "Side plank", "Crunch", "Crunch cavo", "Leg raise", "Hanging knee raise", "Russian twist", "Dead bug", "Pallof press", "Mountain climber", "Ab wheel"], "Cardio e mobilità": ["Tapis roulant", "Camminata inclinata", "Cyclette", "Ellittica", "Vogatore", "Salto corda", "Corsa", "Nuoto", "Mobilità anche", "Stretching femorali", "Stretching quadricipiti", "Mobilità caviglie", "Foam roller"]},TEMPLATES=[["Gambe posteriori e glutei", "Gambe e glutei", [["Squat bilanciere", 3, 10], ["Stacco rumeno", 4, 8], ["Hip thrust", 4, 10], ["Leg curl seduto", 4, 12], ["Leg press piedi alti", 3, 12], ["Affondi indietro", 3, 10], ["Adductor machine", 3, 15], ["Abductor machine", 3, 15], ["Calf raise in piedi", 4, 15]]], ["Gambe complete", "Gambe e glutei", [["Squat bilanciere", 4, 8], ["Leg press", 4, 10], ["Affondi camminati", 3, 10], ["Stacco rumeno", 3, 10], ["Leg curl sdraiato", 3, 12], ["Leg extension", 3, 12], ["Hip thrust", 3, 10], ["Adductor machine", 3, 15], ["Calf raise seduto", 4, 15]]], ["Glutei e femorali", "Gambe e glutei", [["Hip thrust", 4, 8], ["Stacco rumeno", 4, 10], ["Leg curl seduto", 4, 12], ["Leg press piedi alti", 3, 12], ["Kickback cavo", 3, 15], ["Abductor machine", 3, 15], ["Adductor machine", 3, 15], ["Glute bridge", 3, 12]]], ["Schiena completa e bicipiti", "Schiena", [["Trazioni assistite", 4, 8], ["Lat machine presa larga", 3, 10], ["Rematore bilanciere", 4, 8], ["Pulley basso", 3, 12], ["Rematore manubrio", 3, 10], ["Pulldown braccia tese", 3, 12], ["Face pull", 3, 15], ["Curl manubri", 3, 10], ["Curl martello", 3, 12]]], ["Petto e tricipiti", "Petto", [["Panca piana bilanciere", 4, 8], ["Panca inclinata manubri", 4, 10], ["Chest press", 3, 12], ["Croci ai cavi", 3, 12], ["Push up", 3, 12], ["Dip alle parallele", 3, 8], ["Pushdown tricipiti", 3, 12], ["Estensioni tricipiti sopra testa", 3, 12]]], ["Spalle e core", "Spalle", [["Military press", 4, 8], ["Shoulder press manubri", 3, 10], ["Alzate laterali", 4, 12], ["Reverse pec deck", 4, 12], ["Face pull", 3, 15], ["Pallof press", 3, 12], ["Hanging knee raise", 3, 12], ["Plank", 3, 45]]], ["Braccia complete", "Braccia", [["Curl bilanciere", 4, 10], ["Curl manubri", 3, 12], ["Curl martello", 3, 12], ["Curl panca Scott", 3, 10], ["Pushdown tricipiti", 4, 12], ["French press", 3, 10], ["Estensioni tricipiti sopra testa", 3, 12], ["Dip panca", 3, 12]]], ["Full body A · forza", "Mista", [["Squat bilanciere", 4, 8], ["Panca piana manubri", 4, 8], ["Lat machine presa larga", 4, 10], ["Stacco rumeno", 3, 10], ["Shoulder press manubri", 3, 10], ["Leg curl seduto", 3, 12], ["Pallof press", 3, 12], ["Plank", 3, 40]]], ["Full body B · ipertrofia", "Mista", [["Leg press", 4, 12], ["Rematore macchina", 4, 10], ["Panca inclinata manubri", 3, 10], ["Hip thrust", 4, 10], ["Alzate laterali", 3, 15], ["Curl martello", 3, 12], ["Pushdown tricipiti", 3, 12], ["Crunch cavo", 3, 15]]], ["Full body C · funzionale", "Mista", [["Affondi camminati", 3, 10], ["Trazioni assistite", 4, 8], ["Push up", 4, 12], ["Stacco rumeno", 3, 10], ["Step up", 3, 10], ["Face pull", 3, 15], ["Hanging knee raise", 3, 12], ["Camminata inclinata", 1, 15]]], ["Upper body", "Mista", [["Panca piana bilanciere", 4, 8], ["Lat machine presa larga", 4, 10], ["Rematore manubrio", 3, 10], ["Shoulder press manubri", 3, 10], ["Croci ai cavi", 3, 12], ["Face pull", 3, 15], ["Curl manubri", 3, 12], ["Pushdown tricipiti", 3, 12]]], ["Lower body", "Gambe e glutei", [["Squat bilanciere", 4, 8], ["Stacco rumeno", 4, 10], ["Leg press", 3, 12], ["Leg curl seduto", 3, 12], ["Hip thrust", 3, 10], ["Affondi indietro", 3, 10], ["Adductor machine", 3, 15], ["Calf raise in piedi", 4, 15]]], ["Push · spinta", "Mista", [["Panca piana bilanciere", 4, 8], ["Panca inclinata manubri", 3, 10], ["Shoulder press manubri", 3, 10], ["Chest press", 3, 12], ["Alzate laterali", 3, 15], ["Croci ai cavi", 3, 12], ["Pushdown tricipiti", 3, 12], ["French press", 3, 12]]], ["Pull · tirata", "Mista", [["Trazioni assistite", 4, 8], ["Rematore bilanciere", 4, 8], ["Lat machine presa stretta", 3, 10], ["Pulley basso", 3, 12], ["Face pull", 3, 15], ["Pulldown braccia tese", 3, 12], ["Curl bilanciere", 3, 10], ["Curl martello", 3, 12]]], ["Calisthenics · progressione", "Mista", [["Trazioni assistite", 4, 6], ["Push up", 4, 12], ["Dip alle parallele", 4, 8], ["Hanging knee raise", 4, 12], ["Plank", 3, 45], ["Side plank", 3, 30], ["Dead bug", 3, 12], ["Mobilità anche", 2, 12]]], ["Cardio e mobilità", "Cardio e mobilità", [["Camminata inclinata", 1, 20], ["Vogatore", 1, 10], ["Cyclette", 1, 15], ["Mobilità anche", 3, 10], ["Mobilità caviglie", 3, 10], ["Stretching femorali", 3, 30], ["Foam roller", 2, 60]]]],FOODS=[["petto di pollo",110,23,1.5,0],["pollo",110,23,1.5,0],["tacchino",107,24,1,0],["manzo",170,22,9,0],["salmone",208,20,13,0],["tonno al naturale",110,25,1,0],["tonno",130,24,3,0],["uovo",143,13,10,1],["albumi",46,11,0,1],["yogurt greco 0%",59,10,0.2,3.6],["yogurt greco",90,9,4,4],["mozzarella",250,18,19,2],["parmigiano",392,33,28,0],["ricotta",146,11,10,3],["latte scremato",35,3.5,0.2,5],["latte",60,3.2,3.3,4.8],["whey",390,78,6,8],["proteine in polvere",390,78,6,8],["pasta cotta",155,5.5,0.9,30],["pasta",355,12,1.5,72],["riso cotto",130,2.7,0.3,28],["riso",360,7,1,79],["pane",265,9,3.2,49],["rosetta",270,9,2,52],["corn flakes",365,7,0.9,84],["fiocchi di avena",380,13,7,67],["avena",380,13,7,67],["banana",89,1.1,0.3,23],["mela",52,0.3,0.2,14],["avocado",160,2,15,9],["patata dolce",86,1.6,0.1,20],["patate",77,2,0.1,17],["ravanelli",16,0.7,0.1,3.4],["insalata",15,1.4,0.2,2.9],["pomodoro",18,0.9,0.2,3.9],["zucchine",17,1.2,0.3,3.1],["broccoli",34,2.8,0.4,7],["olio evo",884,0,100,0],["olio",884,0,100,0],["miele",304,0.3,0,82],["noci",654,15,65,14],["mandorle",579,21,50,22],["salame",400,22,34,1],["prosciutto cotto",145,20,6,1],["prosciutto crudo",250,27,16,0],["biscotti",450,6,17,70],["cioccolato fondente",550,7,40,46],["caffè",2,0,0,0],["zucchero",400,0,0,100],["pizza margherita",260,11,10,33],["legumi cotti",110,7,1,18],["ceci cotti",164,9,2.6,27],["lenticchie cotte",116,9,0.4,20],["petto di pollo crudo",110,23,1.5,0],["petto di pollo cotto",165,31,3.6,0],["petto di tacchino crudo",107,24,1,0],["fesa di tacchino cotta",135,29,1.6,0],["coscia di pollo senza pelle",120,20,4,0],["merluzzo crudo",82,18,0.7,0],["nasello",82,17.8,0.7,0],["orata",121,20,4,0],["branzino",97,18,2.5,0],["gamberi",85,20,0.5,0],["sgombro",205,19,14,0],["sardine",208,25,11,0],["tonno fresco",144,23,5,0],["bresaola",151,32,2.6,0],["speck",300,28,20,0],["fiocchi di latte",98,11,4.3,3.4],["skyr bianco",63,11,0.2,4],["yogurt bianco intero",61,3.5,3.3,4.7],["kefir",55,3.5,2.5,4],["latte parzialmente scremato",46,3.4,1.6,4.9],["feta",265,14,21,4],["grana padano",384,33,28,0],["stracchino",300,17,25,2],["tofu",76,8,4.8,1.9],["tempeh",193,20,11,8],["seitan",120,24,2,4],["pasta integrale secca",350,13,2.5,67],["pasta integrale cotta",150,6,1,28],["riso basmati crudo",350,7.5,0.6,78],["riso basmati cotto",130,2.7,0.3,28],["cous cous secco",376,13,0.6,77],["cous cous cotto",112,3.8,0.2,23],["quinoa cruda",368,14,6,64],["quinoa cotta",120,4.4,1.9,21],["farro cotto",125,5,0.8,26],["orzo cotto",123,2.3,0.4,28],["pane integrale",247,9,3.5,41],["pane di segale",259,8.5,3.3,48],["fette biscottate",400,11,6,75],["gallette di riso",387,8,3,81],["muesli",370,10,7,67],["granola",470,10,20,64],["patate bollite",87,1.9,0.1,20],["patate al forno senza olio",93,2.5,0.1,21],["patate dolci cotte",90,2,0.2,21],["zucca",26,1,0.1,6.5],["carote",41,0.9,0.2,10],["spinaci",23,2.9,0.4,3.6],["melanzane",25,1,0.2,6],["peperoni",31,1,0.3,6],["cetrioli",15,0.7,0.1,3.6],["funghi champignon",22,3.1,0.3,3.3],["fagiolini",31,1.8,0.2,7],["piselli cotti",84,5.4,0.2,15],["fagioli borlotti cotti",110,7,0.5,19],["fagioli cannellini cotti",114,8,0.4,21],["edamame",121,12,5,9],["arancia",47,0.9,0.1,12],["pera",57,0.4,0.1,15],["kiwi",61,1.1,0.5,15],["fragole",32,0.7,0.3,7.7],["mirtilli",57,0.7,0.3,14],["uva",69,0.7,0.2,18],["anguria",30,0.6,0.2,7.6],["ananas",50,0.5,0.1,13],["pesca",39,0.9,0.3,9.5],["burro di arachidi",588,25,50,20],["arachidi",567,26,49,16],["nocciole",628,15,61,17],["pistacchi",562,20,45,28],["semi di chia",486,17,31,42],["semi di lino",534,18,42,29],["olio di semi",884,0,100,0],["burro",717,0.9,81,0.1],["marmellata",250,0.4,0.1,62],["salsa di pomodoro",29,1.4,0.2,6],["passata di pomodoro",30,1.5,0.2,5],["hummus",166,8,10,14],["cioccolato al latte",535,8,30,59],["gelato alla crema",207,3.5,11,24],["cracker",430,10,13,68],["taralli",450,10,18,62],["biscotti secchi",430,7,12,73],["cappuccino senza zucchero",45,2.7,2.3,3.8],["piadina classica",320,8,9,52],["piadina integrale",300,9,8,49],["piadina all olio",315,8,9,51],["piadina proteica",280,17,8,35],["wrap tortilla",310,8,8,53],["pane pita",275,9,1.2,56],["panino hamburger",290,9,6,48],["hamburger manzo magro crudo",155,21,8,0],["hamburger manzo 20% grassi crudo",250,17,20,0],["hamburger di pollo crudo",125,20,5,1],["hamburger di tacchino crudo",120,21,4,1],["hamburger vegetale",190,13,9,14],["hamburger di manzo cotto",245,26,15,0],["macinato manzo 5% grassi crudo",137,21,5,0],["macinato manzo 10% grassi crudo",176,20,10,0],["macinato manzo 20% grassi crudo",254,17,20,0],["macinato misto bovino suino crudo",245,17,19,0],["macinato pollo crudo",125,21,4,0],["macinato tacchino crudo",115,22,3,0],["petto pollo crudo senza pelle",110,23,1.5,0],["petto pollo cotto alla piastra",165,31,3.6,0],["coscia pollo cruda senza pelle",125,20,5,0],["coscia pollo cotta senza pelle",180,26,8,0],["sovracoscia pollo cruda",170,18,11,0],["ali pollo cotte con pelle",260,24,18,0],["pollo arrosto con pelle",220,27,12,0],["pollo impanato",240,19,12,16],["cotoletta pollo fritta",270,18,15,16],["fesa tacchino cruda",107,24,1,0],["fesa tacchino cotta",150,29,2,0],["bistecca manzo magra cruda",145,22,6,0],["bistecca manzo cotta",205,29,9,0],["filetto manzo crudo",140,21,6,0],["entrecote manzo cruda",230,19,17,0],["carne bovina bollita",215,28,11,0],["vitello magro crudo",110,21,3,0],["lonza maiale cruda",145,22,6,0],["lonza maiale cotta",195,29,8,0],["salsiccia suino cruda",300,15,26,1],["polpette carne cotte",230,18,15,8],["petto tacchino affettato",110,20,2,2],["tonno fresco crudo",130,24,3,0],["tonno fresco cotto",185,29,6,0],["tonno in scatola al naturale sgocciolato",110,25,1,0],["tonno in scatola olio sgocciolato",190,26,9,0],["tonno in scatola olio non sgocciolato",260,23,18,0],["tonno sott olio",190,26,9,0],["salmone fresco crudo",208,20,13,0],["salmone cotto",230,25,14,0],["salmone affumicato",150,22,7,0],["merluzzo cotto",105,23,0.9,0],["orata cruda",120,20,4,0],["branzino crudo",100,19,2.5,0],["gamberi cotti",100,24,0.3,0],["calamari",92,16,1.4,3],["cozze",86,12,2.2,4],["surimi",99,8,0.5,15],["uovo sodo",155,13,11,1],["uova strapazzate senza olio",150,10,11,2],["frittata con olio",190,12,15,2],["formaggio spalmabile",250,6,24,4],["philadelphia light",160,8,11,7],["quark magro",67,12,0.2,4],["yogurt greco 2%",73,10,2,4],["yogurt greco 5%",97,9,5,4],["mozzarella light",170,20,9,2],["mozzarella bufala",280,17,24,1],["scamorza",330,25,25,2],["pecorino romano",390,28,32,0],["pasta secca cruda",355,12,1.5,72],["pasta cotta senza condimento",155,5.5,0.9,30],["riso integrale crudo",360,8,2.8,74],["riso integrale cotto",125,2.6,1,26],["gnocchi patate",155,4,0.5,33],["pane bianco",265,9,3.2,49],["focaccia",310,8,11,46],["toast pane",265,9,4,48],["patatine fritte",310,3.5,15,41],["patate lesse",87,2,0.1,20],["patate al forno con olio",145,2.5,5,22],["pizza marinara",230,7,6,36],["pizza prosciutto",280,12,11,33],["piadina prosciutto e mozzarella",280,14,12,29],["piadina pollo e verdure",220,14,8,24],["maionese",680,1,75,1],["ketchup",110,1,0.1,26],["pesto genovese",470,5,46,7],["salsa yogurt",100,4,6,7],["olio oliva",884,0,100,0],["bevanda soia senza zucchero",33,3.3,1.8,0.7],["bevanda avena",45,1,1.5,7],["barretta proteica",360,30,12,30],["croissant vuoto",400,8,22,44],["cornetto crema",350,7,17,44],["wafer",510,6,26,62],["gallette riso",385,8,3,80],["nutella crema nocciole",540,6,31,57],["birra analcolica",25,0.3,0,5]];
+const KEY='fitlab_v2_data';let state={meals:[],profile:{name:'',birth:'',sex:'m',height:187,weight:94,targetweight:85,activity:1.2,goal:'cut',adjust:-400,protein:1.6,fat:0.8,manual:''},workouts:[],nutrition:[],weights:[]};let session=[],foodDraft=[],planFilter='Tutte';
+try{let saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved&&typeof saved==='object'){state={...state,...saved,meals:Array.isArray(saved.meals)?saved.meals:[],profile:{...state.profile,...saved.profile}}}}catch(e){}
+const $=id=>document.getElementById(id),today=()=>new Date().toLocaleDateString('en-CA'),round=n=>Math.round((Number(n)||0)*10)/10,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function persist(){localStorage.setItem(KEY,JSON.stringify(state))}function toast(s){$('toast').textContent=s;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2600)}function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));if(page==='home')renderDashboard();if(page==='profile')renderProfile();if(page==='nutrition'){renderFood();renderFoodHistory()}if(page==='workout'){renderSession();renderWorkHistory()}if(page==='plans')renderPlans();window.scrollTo(0,0)}document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function age(b){if(!b)return null;let d=new Date(b+'T12:00:00'),n=new Date(),v=n.getFullYear()-d.getFullYear();if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate()))v--;return v>0&&v<110?v:null}function target(){let p=state.profile,a=age(p.birth),bmr=a&&p.sex!=='none'?(10*+p.weight+6.25*+p.height-5*a+(p.sex==='m'?5:-161)):null,tdee=bmr?Math.round(bmr*+p.activity):null,delta=Number(p.adjust);let kcal=p.manual?+p.manual:(tdee?Math.round(tdee+delta):null),protein=round(+p.weight*+p.protein),fat=round(+p.weight*+p.fat),carbs=kcal?Math.max(0,round((kcal-protein*4-fat*9)/4)):null;return {bmr,tdee,kcal,protein,fat,carbs}}function progress(value,max){return `<div class="bar"><div class="fill" style="width:${max?Math.min(100,Math.max(0,value/max*100)):0}%"></div></div>`}
+function renderDashboard(){let t=target(),last=state.nutrition.slice().sort((a,b)=>b.date.localeCompare(a.date))[0],done=state.workouts.length;$('dashstats').innerHTML=[['Obiettivo',({cut:'Dimagrimento',maintain:'Mantenimento',bulk:'Aumento massa'})[state.profile.goal]],['Calorie target',t.kcal?t.kcal+' kcal':'Imposta i dati'],['Proteine target',t.protein+' g'],['Allenamenti salvati',done],['Ultima giornata',last?last.date:'—'],['Peso attuale',state.profile.weight+' kg']].map(([a,b])=>`<div class="card"><small>${a}</small><div class="stat" style="font-size:24px">${esc(b)}</div></div>`).join('');$('dashwork').innerHTML=state.workouts.slice().reverse().slice(0,6).map(w=>`<div class="historyitem"><b>${esc(w.name||'Allenamento')}</b> · ${esc(w.date)}<div class="muted">${w.items.length} esercizi · ${w.items.reduce((n,x)=>n+x.checked.filter(Boolean).length,0)} serie svolte</div></div>`).join('')||'<p>Nessun allenamento registrato.</p>';$('dashfood').innerHTML=state.nutrition.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(f=>`<div class="historyitem"><b>${f.date}</b> · ${round(f.totals.kcal)} kcal<div class="muted">Proteine ${round(f.totals.protein)} g · Grassi ${round(f.totals.fat)} g</div></div>`).join('')||'<p>Nessuna giornata registrata.</p>'}
+function applyPreset(){let m=$('preset').value.match(/(\d+)x(\d+)/);if(m){$('newsets').value=m[1];$('newreps').value=m[2]}}function renderCatalogue(){let q=$('exsearch').value.trim().toLowerCase(),group=$('exgroup').value,arr=[];Object.entries(EXERCISES).forEach(([g,names])=>{if(group!=='Tutti'&&group!==g)return;names.forEach(name=>{if(!q||name.toLowerCase().includes(q))arr.push([name,g])})});$('catalogue').innerHTML=arr.slice(0,110).map(([n,g])=>`<div class="row between" style="padding:8px;border-bottom:1px solid #293d51"><span><b>${esc(n)}</b><br><small>${esc(g)}</small></span><button onclick='addExercise(${JSON.stringify(n)})'>+ Aggiungi</button></div>`).join('')||'<p>Nessun esercizio trovato. Puoi aggiungerne uno personalizzato qui sotto.</p>';if(!arr.length&&q)$('catalogue').innerHTML+=`<button onclick="addExercise($('exsearch').value.trim())">+ Crea esercizio personalizzato</button>`}
+function normalized(e){e.sets=Math.max(1,+e.sets||1);e.reps=+e.reps||10;e.kg=+e.kg||0;e.checked=Array.from({length:e.sets},(_,i)=>!!e.checked?.[i]);e.details=Array.from({length:e.sets},(_,i)=>({reps:Number(e.details?.[i]?.reps??e.reps),kg:Number(e.details?.[i]?.kg??e.kg)}));return e}
+function addExercise(name,sets,reps){if(!name)return;sets=Number(sets||$('newsets').value||3);reps=Number(reps||$('newreps').value||10);if(sets<1||sets>20||reps<1||reps>600){toast('Controlla serie e ripetizioni');return}session.push(normalized({id:Date.now()+Math.random(),name,sets,reps,kg:Number($('newkg').value)||0,checked:[]}));renderSession();toast(name+' aggiunto')}
+function updateEx(id,field,val){let e=session.find(x=>x.id===id);if(!e)return;if(field==='sets'){e.sets=Math.max(1,Math.min(20,+val||1));normalized(e)}else{e[field]=Math.max(0,+val||0);if(field==='kg'||field==='reps')e.details=e.details.map((d,i)=>e.checked[i]?d:{...d,[field]:e[field]})}renderSession()}
+function updateSet(id,i,field,val){let e=session.find(x=>x.id===id);if(!e)return;normalized(e);e.details[i][field]=Math.max(0,Number(val)||0)}
+function toggleSet(id,i){let e=session.find(x=>x.id===id);if(e){e.checked[i]=!e.checked[i];renderSession()}}
+function removeEx(id){session=session.filter(x=>x.id!==id);renderSession()}
+function clearWorkout(){if(session.length&&!confirm('Svuotare la sessione in corso?'))return;session=[];renderSession()}
+function renderSession(){renderBurnEstimate();session.forEach(normalized);let total=session.reduce((n,x)=>n+x.sets,0),done=session.reduce((n,x)=>n+x.checked.filter(Boolean).length,0);$('workprogress').textContent=done+' / '+total+' serie';$('workfill').style.width=(total?done/total*100:0)+'%';$('session').innerHTML=session.map(e=>`<div class="exercise ${e.checked.every(Boolean)?'done':''}"><div class="row between"><b>${esc(e.name)}</b><button class="danger" onclick="removeEx(${e.id})">×</button></div><div class="fields" style="margin-top:9px"><label>Serie<input type="number" min="1" max="20" value="${e.sets}" onchange="updateEx(${e.id},'sets',this.value)"></label><label>Rip. obiettivo<input type="number" min="1" value="${e.reps}" onchange="updateEx(${e.id},'reps',this.value)"></label><label>Kg iniziali<input type="number" min="0" step="0.5" value="${e.kg}" onchange="updateEx(${e.id},'kg',this.value)"></label></div><div style="margin-top:10px">${e.checked.map((c,i)=>`<div class="row" style="margin:6px 0;align-items:end;flex-wrap:wrap"><button class="setbtn ${c?'checked':''}" onclick="toggleSet(${e.id},${i})">${c?'✓':'○'} Serie ${i+1}</button><label style="max-width:100px">Ripetizioni<input type="number" min="0" value="${e.details[i].reps}" onchange="updateSet(${e.id},${i},'reps',this.value)"></label><label style="max-width:110px">Kg<input type="number" min="0" step="0.5" value="${e.details[i].kg}" onchange="updateSet(${e.id},${i},'kg',this.value)"></label></div>`).join('')}</div></div>`).join('')||'<p>Seleziona un esercizio dal catalogo o carica una scheda tipo.</p>'}
+function saveWorkout(){if(!session.length){toast('Aggiungi almeno un esercizio');return}session.forEach(normalized);state.workouts.push({id:Date.now(),date:$('workdate').value||today(),name:$('workname').value||'Allenamento libero',duration:+$('workduration').value||60,met:+$('workintensity').value||5,burn:estimatedBurn(),items:JSON.parse(JSON.stringify(session))});persist();session=[];renderSession();renderWorkHistory();toast('Allenamento salvato con dettagli per serie')}
+function renderWorkHistory(){$('workhistory').innerHTML=state.workouts.slice().reverse().map(w=>`<div class="historyitem"><button class="ghost" style="text-align:left;width:100%;font-weight:700" onclick="toggleWorkoutDetails(${w.id})">📋 ${esc(w.date)} · ${esc(w.name)} ▾</button><div class="muted">${w.items.length} esercizi · ${w.items.reduce((n,e)=>n+(e.checked||[]).filter(Boolean).length,0)} serie completate · ${w.burn?Math.round(w.burn)+' kcal stimate':''}</div><div id="detail-${w.id}" style="display:none;margin:10px 0"></div><div class="row" style="margin-top:6px"><button onclick="toggleWorkoutDetails(${w.id})">Dettagli</button><button onclick="repeatWorkout(${w.id})">Ripeti</button><button class="danger" onclick="deleteWorkout(${w.id})">Elimina</button></div></div>`).join('')||'<p>Lo storico apparirà qui. Clicca una sessione per vedere ogni serie, ripetizione e carico.</p>'}
+function toggleWorkoutDetails(id){let w=state.workouts.find(x=>x.id===id),el=$('detail-'+id);if(!w||!el)return;if(el.style.display!=='none'){el.style.display='none';return}el.innerHTML=w.items.map(e=>{normalized(e);return `<div style="padding:10px 0;border-top:1px solid #31465d"><b>${esc(e.name)}</b> · obiettivo ${e.sets} × ${e.reps}<table style="width:100%;margin-top:6px"><thead><tr><th>Serie</th><th>Ripetizioni</th><th>Carico</th><th>Stato</th></tr></thead><tbody>${e.details.map((d,i)=>`<tr><td>${i+1}</td><td>${d.reps}</td><td>${d.kg} kg</td><td>${e.checked[i]?'✓ Fatta':'— Non spuntata'}</td></tr>`).join('')}</tbody></table></div>`}).join('');el.style.display='block'}
+function repeatWorkout(id){let w=state.workouts.find(x=>x.id===id);if(!w)return;session=w.items.map(e=>normalized({...e,id:Date.now()+Math.random(),checked:Array(e.sets).fill(false),details:e.details?.map(d=>({...d}))}));$('workname').value=w.name;$('workduration').value=w.duration||60;$('workintensity').value=String(w.met||5);renderSession();go('workout');toast('Scheda caricata con carichi precedenti')}
+function deleteWorkout(id){if(!confirm('Eliminare questo allenamento?'))return;state.workouts=state.workouts.filter(x=>x.id!==id);persist();renderWorkHistory()}
+function renderPlans(){let filters=['Tutte',...new Set(TEMPLATES.map(x=>x[1]))];$('planfilters').innerHTML=filters.map(g=>`<button class="${planFilter===g?'active':''}" onclick='planFilter=${JSON.stringify(g)};renderPlans()'>${esc(g)}</button>`).join('');$('planlist').innerHTML=TEMPLATES.filter(t=>planFilter==='Tutte'||t[1]===planFilter).map((t)=>{let index=TEMPLATES.indexOf(t);return `<div class="template"><span class="tag">${esc(t[1])}</span><h3 style="margin-top:9px">${esc(t[0])}</h3>${t[2].map(x=>`<div style="padding:5px 0;color:#c3d4e2">${esc(x[0])} <b>· ${x[1]} × ${x[2]}</b></div>`).join('')}<div class="muted" style="margin:10px 0">🔥 ~${Math.round(estimateBurn(60, planMET(t[1])))} kcal attive / 60 min · stima per ${round(+state.profile.weight||70)} kg</div><button class="primary" onclick="usePlan(${index})">Usa questa scheda</button></div>`}).join('')}function usePlan(i){let t=TEMPLATES[i];if(session.length&&!confirm('Sostituire la sessione in corso con questa scheda?'))return;session=t[2].map((x,i)=>({id:Date.now()+i+Math.random(),name:x[0],sets:x[1],reps:x[2],kg:0,checked:Array(x[1]).fill(false),details:Array.from({length:x[1]},()=>({reps:x[2],kg:0}))}));$('workname').value=t[0];$('workduration').value=60;$('workintensity').value=String(planMET(t[1]));go('workout');toast('Scheda caricata')}
+function normalizeFood(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/['’_-]/g,' ').replace(/\s+/g,' ').trim()}
+
+const EXTRA_FOODS=[["caffè espresso senza zucchero", 2, 0.1, 0, 0.3], ["caffè espresso con zucchero 5 g (tazzina 30 ml)", 69, 0.1, 0, 16.7], ["caffè americano senza zucchero", 1, 0.1, 0, 0], ["caffè decaffeinato", 2, 0.1, 0, 0.3], ["cappuccino latte intero senza zucchero", 48, 2.6, 2.6, 3.8], ["cappuccino latte parzialmente scremato", 36, 2.8, 1.4, 4.3], ["latte macchiato senza zucchero", 48, 3.2, 2.6, 4.8], ["tè senza zucchero", 1, 0, 0, 0.2], ["tisana senza zucchero", 1, 0, 0, 0.2], ["succo arancia 100%", 45, 0.7, 0.2, 10.4], ["succo mela 100%", 46, 0.1, 0.1, 11.3], ["spremuta arancia", 45, 0.7, 0.2, 10.4], ["cola zuccherata", 42, 0, 0, 10.6], ["cola zero", 0, 0, 0, 0], ["aranciata zuccherata", 43, 0, 0, 10.6], ["acqua tonica zuccherata", 34, 0, 0, 8.8], ["bevanda isotonica", 24, 0, 0, 6], ["latte avena non zuccherato", 40, 1, 1.5, 6], ["latte mandorla non zuccherato", 15, 0.5, 1.2, 0.5], ["latte soia senza zuccheri", 33, 3.3, 1.8, 0.7], ["cornetto semplice da bar", 400, 7, 22, 45], ["cornetto alla crema", 365, 6, 17, 47], ["cornetto al cioccolato", 420, 7, 23, 47], ["cornetto integrale", 380, 8, 19, 47], ["croissant al burro", 406, 8.2, 21, 45.8], ["croissant confezionato", 430, 7, 24, 47], ["brioche semplice", 345, 8, 12, 52], ["bombolone alla crema", 350, 6, 16, 45], ["muffin ai mirtilli", 377, 5, 16, 53], ["fette biscottate classiche", 390, 11, 5, 75], ["fette biscottate integrali", 380, 12, 6, 69], ["fette biscottate senza zuccheri aggiunti", 380, 12, 6, 68], ["biscotti secchi", 430, 7, 12, 73], ["biscotti integrali", 430, 8, 14, 68], ["biscotti al cioccolato", 480, 6, 22, 64], ["pancake semplice", 227, 6.4, 9.7, 28.3], ["waffle", 291, 7.9, 14, 32.9], ["pane tostato", 265, 9, 3.2, 49], ["marmellata fragole", 250, 0.4, 0.1, 62], ["miele", 304, 0.3, 0, 82.4], ["crema spalmabile nocciole e cacao", 540, 6.3, 31, 57], ["burro arachidi", 588, 25, 50, 20], ["yogurt greco vaniglia 0%", 65, 9, 0.2, 6], ["yogurt greco banana 0%", 68, 9, 0.2, 7], ["banana", 89, 1.1, 0.3, 22.8], ["mela con buccia", 52, 0.3, 0.2, 13.8], ["pera", 57, 0.4, 0.1, 15.2], ["arancia", 47, 0.9, 0.1, 11.8], ["mandarino", 53, 0.8, 0.3, 13.3], ["clementine", 47, 0.9, 0.2, 12], ["kiwi", 61, 1.1, 0.5, 14.7], ["fragole", 32, 0.7, 0.3, 7.7], ["mirtilli", 57, 0.7, 0.3, 14.5], ["lamponi", 52, 1.2, 0.7, 11.9], ["more", 43, 1.4, 0.5, 9.6], ["uva", 69, 0.7, 0.2, 18.1], ["pesca", 39, 0.9, 0.3, 9.5], ["albicocche", 48, 1.4, 0.4, 11.1], ["ananas", 50, 0.5, 0.1, 13.1], ["mango", 60, 0.8, 0.4, 15], ["melone", 34, 0.8, 0.2, 8.2], ["anguria", 30, 0.6, 0.2, 7.6], ["prugne", 46, 0.7, 0.3, 11.4], ["ciliegie", 63, 1.1, 0.2, 16], ["fichi freschi", 74, 0.8, 0.3, 19.2], ["datteri secchi", 282, 2.5, 0.4, 75], ["avocado polpa", 160, 2, 14.7, 8.5], ["cracker salati", 430, 9, 12, 70], ["grissini", 410, 11, 9, 70], ["taralli", 465, 9, 19, 63], ["gallette riso", 387, 8, 3, 81], ["barretta cereali", 400, 6, 12, 68], ["barretta proteica media", 370, 30, 12, 35], ["popcorn senza olio", 387, 13, 4.5, 78], ["gelato fiordilatte", 210, 3.5, 11, 25], ["gelato cioccolato", 230, 4, 12, 27], ["cioccolato fondente 70%", 600, 8, 43, 46], ["pistacchi", 562, 20, 45, 28], ["noci", 654, 15, 65, 14], ["mandorle", 579, 21, 50, 22], ["nocciole", 628, 15, 61, 17], ["anacardi", 553, 18, 44, 30], ["piadina integrale confezionata", 300, 8, 8, 49], ["piadina senza strutto", 310, 8, 9, 49], ["wrap integrale", 290, 9, 7, 49], ["hamburger pollo cotto senza panatura", 165, 25, 7, 0], ["hamburger tacchino cotto", 170, 25, 7, 0], ["hamburger bovino 20% grassi cotto", 280, 25, 20, 0], ["petto pollo impanato fritto", 270, 20, 14, 16], ["petto pollo arrosto senza pelle", 165, 31, 3.6, 0], ["uovo sodo", 155, 13, 11, 1.1], ["albume pastorizzato", 46, 10, 0.2, 0.7], ["tonno al naturale sgocciolato", 110, 25, 1, 0], ["tonno sottolio sgocciolato", 190, 27, 9, 0], ["salmone affumicato", 117, 18, 4, 0], ["bresaola", 151, 32, 2.6, 0], ["prosciutto cotto sgrassato", 125, 20, 4, 1], ["mozzarella light", 170, 20, 9, 2], ["ricotta vaccina", 146, 11, 10, 3.5], ["hummus", 166, 8, 10, 14], ["olio oliva", 884, 0, 100, 0], ["maionese", 680, 1, 75, 1], ["ketchup", 112, 1, 0.1, 26], ["pesto genovese", 480, 5, 47, 7]];
+for(const f of EXTRA_FOODS){if(!FOODS.some(x=>normalizeFood(x[0])===normalizeFood(f[0])))FOODS.push(f)}
+const FOOD_ALIASES={'caffè':'caffè espresso senza zucchero','caffe':'caffè espresso senza zucchero','espresso':'caffè espresso senza zucchero','cornetto':'cornetto semplice da bar','croissant':'croissant al burro','fette biscottate':'fette biscottate classiche','fetta biscottata':'fette biscottate classiche','cappuccino':'cappuccino latte intero senza zucchero','succo':'succo arancia 100%','hamburger':'hamburger manzo magro crudo','hamburgher':'hamburger manzo magro crudo','burger':'hamburger manzo magro crudo','macinato':'macinato manzo 10% grassi crudo','carne macinata':'macinato manzo 10% grassi crudo','macinato di pollo':'macinato pollo crudo','pollo macinato':'macinato pollo crudo','tacchino macinato':'macinato tacchino crudo','carne':'bistecca manzo magra cruda','piada':'piadina classica','piadina':'piadina classica','tortilla':'wrap tortilla','tonno scatola':'tonno in scatola al naturale sgocciolato','tonno al naturale':'tonno in scatola al naturale sgocciolato','tonno olio':'tonno in scatola olio sgocciolato','petto di pollo':'petto pollo crudo senza pelle','pollo alla piastra':'petto pollo cotto alla piastra','riso basmati':'riso basmati crudo'};
+function foodMatches(query){let q=normalizeFood(query);if(!q)return [];let alias=FOOD_ALIASES[q];if(alias)q=normalizeFood(alias);let scored=FOODS.map(f=>{let n=normalizeFood(f[0]),score=n===q?1000:n.startsWith(q+' ')?700:n.includes(q)?450:q.includes(n)&&n.length>5?300:0;let words=q.split(' ').filter(w=>w.length>2);if(!score&&words.length&&words.every(w=>n.includes(w)))score=200;return {f,score}}).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.f[0].length-b.f[0].length);return scored.map(x=>x.f)}
+function findFood(query){return foodMatches(query)[0]}
+function suggestFoods(){let el=document.getElementById('foodsuggest');if(!el)return;let q=$('foodquery').value.replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/ig,'').trim();let arr=foodMatches(q).slice(0,9);el.innerHTML=arr.map(f=>`<button type="button" class="foodsuggestitem" onclick='selectFoodSuggestion(${JSON.stringify(f[0])})'><b>${esc(f[0])}</b><small>${f[1]} kcal · P ${f[2]}g · G ${f[3]}g · C ${f[4]}g /100g</small></button>`).join('');el.style.display=arr.length?'grid':'none'}
+function selectFoodSuggestion(name){let raw=$('foodquery').value,match=raw.match(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/i);$('foodquery').value=(match?match[0]+' ':'')+name;document.getElementById('foodsuggest').style.display='none';$('foodquery').focus()}
+function addFoodOriginal(){let raw=$('foodquery').value.trim();if(!raw){toast('Scrivi un alimento');return}let match=raw.match(/(?:^|\s)(\d+(?:[.,]\d+)?)\s*(?:g|gr|grammi)\b/i),grams=match?+match[1].replace(',','.'):+$('foodgrams').value||100;let q=raw.replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/ig,'').replace(/^\s*1\s+/,'').trim(),f=findFood(q);if(!match&&/^1\s+(?:caffe|caffè|espresso)/i.test(raw))grams=30;if(!match&&/^1\s+(?:cornetto|croissant)/i.test(raw))grams=65;if(!match&&/^1\s+(?:cappuccino)/i.test(raw))grams=150;if(!match&&/^1\s+(?:fetta biscottata)/i.test(raw))grams=10;if(!match&&/^1\s+banana/i.test(raw))grams=120;if(!match&&/^1\s+uovo/i.test(raw))grams=60;if(!match&&/^1\s+avocado/i.test(raw))grams=150;if(!match&&/^1\s+piadina/i.test(raw))grams=100;if(!f){toast('Alimento non trovato: aggiungi una riga manuale');addBlankFood(raw);return}let scale=grams/100;foodDraft.push({id:Date.now()+Math.random(),meal:$('meal').value,name:f[0],grams,kcal:round(f[1]*scale),protein:round(f[2]*scale),fat:round(f[3]*scale),carbs:round(f[4]*scale)});$('foodquery').value='';document.getElementById('foodsuggest').style.display='none';renderFood()}
+function addBlankFood(name=''){foodDraft.push({id:Date.now()+Math.random(),meal:$('meal').value,name,grams:100,kcal:0,protein:0,fat:0,carbs:0});renderFood()}function editFood(id,key,val){let f=foodDraft.find(x=>x.id===id);if(!f)return;if(key==='grams'){let old=Number(f.grams)||100,ratio=Math.max(0,Number(val)||0)/old;['kcal','protein','fat','carbs'].forEach(k=>f[k]=round(f[k]*ratio));f.grams=Math.max(0,Number(val)||0);renderFood()}else{f[key]=key==='name'?val:Math.max(0,Number(val)||0);renderTotals()}}function deleteFood(id){foodDraft=foodDraft.filter(x=>x.id!==id);renderFood()}function totals(items){return items.reduce((a,x)=>{['kcal','protein','fat','carbs'].forEach(k=>a[k]+=Number(x[k])||0);return a},{kcal:0,protein:0,fat:0,carbs:0})}function renderFood(){renderMealPresets();$('foodrows').innerHTML=foodDraft.map(f=>`<div class="foodrow"><input aria-label="Alimento" value="${esc(f.name)}" onchange="editFood(${f.id},'name',this.value)" title="${esc(f.meal)}"><input type="number" min="0" aria-label="Grammi" value="${f.grams}" onchange="editFood(${f.id},'grams',this.value)"><input type="number" min="0" step="0.1" aria-label="Calorie" value="${f.kcal}" onchange="editFood(${f.id},'kcal',this.value)"><input type="number" min="0" step="0.1" aria-label="Proteine" value="${f.protein}" onchange="editFood(${f.id},'protein',this.value)"><input type="number" min="0" step="0.1" aria-label="Grassi" value="${f.fat}" onchange="editFood(${f.id},'fat',this.value)"><input type="number" min="0" step="0.1" aria-label="Carboidrati" value="${f.carbs}" onchange="editFood(${f.id},'carbs',this.value)"><button class="danger" onclick="deleteFood(${f.id})">×</button></div>`).join('')||'<p>Nessun alimento aggiunto.</p>';renderTotals()}function renderTotals(){let t=totals(foodDraft),g=target();$('foodtotals').innerHTML=[['Calorie',t.kcal,g.kcal,'kcal'],['Proteine',t.protein,g.protein,'g'],['Grassi',t.fat,g.fat,'g'],['Carboidrati',t.carbs,g.carbs,'g']].map(([name,value,goal,unit])=>`<div style="margin:13px 0"><div class="row between"><b>${name}</b><span>${round(value)} ${unit} ${goal?' / '+round(goal)+' '+unit:''}</span></div>${progress(value,goal)}</div>`).join('')+(g.kcal?`<div class="notice ${t.kcal>g.kcal?'warning':''}">${t.kcal>g.kcal?'Sopra':'Sotto'} il target di ${round(Math.abs(g.kcal-t.kcal))} kcal. Il target è una stima, non un limite rigido.</div>`:'<div class="notice warning">Completa il profilo per ottenere un target calorico stimato.</div>')}function saveNutrition(){if(!foodDraft.length){toast('Inserisci almeno un alimento');return}let date=$('fooddate').value||today(),entry={date,items:JSON.parse(JSON.stringify(foodDraft)),totals:totals(foodDraft),target:target().kcal,goal:state.profile.goal};state.nutrition=state.nutrition.filter(x=>x.date!==date);state.nutrition.push(entry);persist();renderFoodHistory();toast('Resoconto del '+date+' salvato')}function loadFoodDraft(){let date=$('fooddate').value,found=state.nutrition.find(x=>x.date===date);foodDraft=found?JSON.parse(JSON.stringify(found.items)):[];renderFood()}function pickFoodDay(date){$('fooddate').value=date;loadFoodDraft();toast('Giornata '+date+' caricata')}function deleteFoodDay(date){if(!confirm('Eliminare il resoconto del '+date+'?'))return;state.nutrition=state.nutrition.filter(x=>x.date!==date);persist();if($('fooddate').value===date)foodDraft=[];renderFood();renderFoodHistory()}function renderFoodHistory(){$('foodhistory').innerHTML=state.nutrition.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(f=>`<div class="historyitem"><div class="row between"><b>${f.date}</b><span class="tag">${round(f.totals.kcal)} kcal</span></div><div class="muted">Proteine ${round(f.totals.protein)} g · Grassi ${round(f.totals.fat)} g · Carbo ${round(f.totals.carbs)} g</div><div class="muted">Target del giorno: ${f.target?f.target+' kcal':'non impostato'} · ${esc(({cut:'Dimagrimento',maintain:'Mantenimento',bulk:'Massa'})[f.goal]||'')}</div><div class="row" style="margin-top:8px"><button onclick='pickFoodDay(${JSON.stringify(f.date)})'>Apri / modifica</button><button class="danger" onclick='deleteFoodDay(${JSON.stringify(f.date)})'>Elimina</button></div></div>`).join('')||'<p>Qui appariranno i resoconti inviati.</p>'}
+function renderProfileOriginal(){let p=state.profile;for(let [id,key] of Object.entries({pname:'name',pbirth:'birth',psex:'sex',pheight:'height',pweight:'weight',ptargetweight:'targetweight',pactivity:'activity',pgoal:'goal',padjust:'adjust',pprotein:'protein',pfat:'fat',pmanual:'manual'}))$(id).value=p[key]??'';renderProfileCalc();renderWeights()}function renderProfileCalc(){let t=target();$('profilecalc').innerHTML=`<div class="stat">${t.kcal?t.kcal+' kcal':'Dati incompleti'}</div><p>Obiettivo calorico quotidiano</p><table><tr><td>Metabolismo basale</td><td>${t.bmr?Math.round(t.bmr)+' kcal':'—'}</td></tr><tr><td>Dispendio stimato</td><td>${t.tdee?t.tdee+' kcal':'—'}</td></tr><tr><td>Proteine</td><td>${t.protein} g</td></tr><tr><td>Grassi</td><td>${t.fat} g</td></tr><tr><td>Carboidrati residui</td><td>${t.carbs??'—'} g</td></tr></table>`}function saveProfile(){let p={};for(let [id,key] of Object.entries({pname:'name',pbirth:'birth',psex:'sex',pheight:'height',pweight:'weight',ptargetweight:'targetweight',pactivity:'activity',pgoal:'goal',padjust:'adjust',pprotein:'protein',pfat:'fat',pmanual:'manual'}))p[key]=$(id).value;if(!p.height||!p.weight){toast('Inserisci altezza e peso');return}state.profile={...state.profile,...p};persist();renderProfileCalc();toast('Profilo salvato')}function recordWeight(){saveProfile();let v=+state.profile.weight;if(!v)return;state.weights.push({date:today(),kg:v});persist();renderWeights();toast('Peso registrato')}function renderWeights(){$('weightlist').innerHTML=state.weights.slice().reverse().map(w=>`<div class="historyitem">${esc(w.date)} · <b>${w.kg} kg</b></div>`).join('')||'<p>Nessuna misurazione registrata.</p>'}
+function backup(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='FitLab_backup_'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function restoreFile(ev){let f=ev.target.files[0];if(!f)return;f.text().then(t=>{let data=JSON.parse(t);if(!data.profile||!Array.isArray(data.workouts)||!Array.isArray(data.nutrition))throw Error('Formato backup non valido');if(!confirm('Sostituire tutti i dati con il backup?'))return;state={...state,...data};persist();location.reload()}).catch(e=>alert('Impossibile importare: '+e.message));ev.target.value=''}function resetAll(){if(confirm('Cancellare definitivamente tutti i dati di FitLab su questo browser?')){localStorage.removeItem(KEY);location.reload()}}
+
+function planMET(group){return /cardio/i.test(group)?7:/calisthenics/i.test(group)?6:/gambe|glutei|full body/i.test(group)?5.5:5}
+function estimateBurn(minutes,met){let weight=Math.max(25,Math.min(300,Number(state.profile.weight)||70));return Math.max(0,Number(minutes)||0)*Math.max(1,Number(met)||3.5)*3.5*weight/200}
+function estimatedBurn(){return Math.round(estimateBurn(+$('workduration').value||60,+$('workintensity').value||5))}
+function renderBurnEstimate(){let el=$('burnestimate');if(el)el.innerHTML=`🔥 Consumo stimato: <b>circa ${estimatedBurn()} kcal</b> (${+$('workduration').value||60} min). Stima MET, non misurazione: può variare molto con pause, intensità e caratteristiche personali. <b>Non sottrarre automaticamente queste calorie dal target giornaliero</b>, che già considera l'attività abituale.`}
+function saveMealPreset(){let name=$('mealpresetname').value.trim();if(!name){toast('Dai un nome al pasto');return}if(!foodDraft.length){toast('Aggiungi gli ingredienti alla tabella prima di salvare');return}let meal=$('meal').value;let items=foodDraft.filter(x=>x.meal===meal);if(!items.length){toast('Non ci sono alimenti per il pasto selezionato: scegli il pasto corretto');return}if(state.meals.some(x=>x.name.toLowerCase()===name.toLowerCase())&&!confirm('Sostituire il pasto predefinito con questo nome?'))return;state.meals=state.meals.filter(x=>x.name.toLowerCase()!==name.toLowerCase());state.meals.push({id:Date.now()+Math.random(),name,meal,items:JSON.parse(JSON.stringify(items))});persist();$('mealpresetname').value='';renderMealPresets();toast('Pasto salvato: '+name)}
+function addMealPreset(id){let m=state.meals.find(x=>x.id===id);if(!m)return;let selected=$('meal').value;for(let x of m.items)foodDraft.push({...JSON.parse(JSON.stringify(x)),id:Date.now()+Math.random(),meal:selected});renderFood();toast('Pasto aggiunto: '+m.name)}
+function deleteMealPreset(id){let m=state.meals.find(x=>x.id===id);if(!m||!confirm('Eliminare il pasto predefinito '+m.name+'?'))return;state.meals=state.meals.filter(x=>x.id!==id);persist();renderMealPresets()}
+function renderMealPresets(){let el=$('mealpresets');if(!el)return;el.innerHTML=state.meals.map(m=>{let t=totals(m.items);return `<div class="historyitem"><div class="row between"><b>${esc(m.name)}</b><span class="tag">${round(t.kcal)} kcal</span></div><div class="muted">${esc(m.meal)} · ${m.items.length} ingredienti · P ${round(t.protein)} g · G ${round(t.fat)} g · C ${round(t.carbs)} g</div><div class="row" style="margin-top:8px"><button onclick="addMealPreset(${m.id})">+ Aggiungi al giorno</button><button class="danger" onclick="deleteMealPreset(${m.id})">Elimina</button></div></div>`}).join('')||'<p class="muted">Nessun pasto salvato. Componi un pasto e premi “Salva pasto dalla tabella”.</p>'}
+
+
+/* FITLAB 4.0 - compatibilità con fitlab_v2_data: nessuna cancellazione */
+let recipeDraft=[];let editingRecipeId=null;
+const fitnessGoals={cut:'Dimagrimento',maintain:'Mantenimento',bulk:'Aumento massa'};
+const uid=()=>Date.now()+Math.random();
+const fmtDate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||'')?d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4):(d||'—');
+const macroText=t=>`${Math.round(t.kcal)} kcal · P ${round(t.protein)} g · G ${round(t.fat)} g · C ${round(t.carbs)} g`;
+// Migrazione non distruttiva dei vecchi pesi. Il resto dello storico resta invariato.
+function migrateFitLab4(){
+ if(!Array.isArray(state.progressEntries))state.progressEntries=[];
+ if(!Array.isArray(state.meals))state.meals=[];
+ if(!Array.isArray(state.weights))state.weights=[];
+ if(!state.fitlab4LegacyWeightsImported)for(let i=0;i<state.weights.length;i++){
+  const w=state.weights[i],id='legacy-weight-'+i;
+  if(!state.progressEntries.some(p=>p.id===id))state.progressEntries.push({id,date:w.date,weight:Number(w.kg),legacy:true,notes:'Peso registrato nella precedente versione'});
+ }
+ state.fitlab4LegacyWeightsImported=true;
+ persist();
+}
+function foodMatches(query){
+ const q=normalizeFood(query);if(!q)return[];
+ const alias=Object.entries(FOOD_ALIASES).find(([k])=>normalizeFood(k)===q);
+ const desired=alias?normalizeFood(alias[1]):'';
+ const words=q.split(' ').filter(w=>w.length>2&&!['con','del','alla','alle','della','naturale','senza'].includes(w));
+ const wordStem=desired.split(' ')[0];
+ return FOODS.map(f=>{
+  const n=normalizeFood(f[0]);let score=0;
+  if(n===q)score=1000;
+  else if(n.startsWith(q+' '))score=720;
+  else if(n.includes(q))score=540;
+  else if(words.length&&words.every(w=>n.includes(w)))score=350;
+  else if(desired&&!FOODS.some(x=>normalizeFood(x[0]).includes(q))&&wordStem&&n.includes(wordStem))score=200;
+  if(desired&&n===desired)score=Math.max(score,860);
+  return {f,score};
+ }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.f[0].length-b.f[0].length).map(x=>x.f);
+}
+function recipePickFood(name){$('recipequery').value=name;$('recipesuggest').style.display='none';}
+function suggestRecipeFoods(){
+ const q=$('recipequery').value.trim(),a=foodMatches(q).slice(0,8),el=$('recipesuggest');
+ el.innerHTML=a.map(f=>`<button type="button" class="foodsuggestitem" onclick='recipePickFood(${esc(JSON.stringify(f[0]))})'><b>${esc(f[0])}</b><small>${f[1]} kcal · P ${f[2]}g · G ${f[3]}g · C ${f[4]}g / 100 g</small></button>`).join('');
+ el.style.display=a.length?'grid':'none';
+}
+function addRecipeIngredient(){
+ let raw=$('recipequery').value.trim(),m=raw.match(/(?:^|\s)(\d+(?:[.,]\d+)?)\s*(?:g|gr|grammi)\b/i);
+ let g=m?Number(m[1].replace(',','.')):Number($('recipegrams').value)||100;
+ let q=raw.replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/ig,'').trim(),f=findFood(q);
+ if(!f){toast('Scegli un ingrediente dai suggerimenti');return}
+ if(!(g>0&&g<=10000)){toast('Quantità non valida');return}
+ let k=g/100;
+ recipeDraft.push({id:uid(),name:f[0],grams:g,kcal:round(f[1]*k),protein:round(f[2]*k),fat:round(f[3]*k),carbs:round(f[4]*k)});
+ $('recipequery').value='';$('recipesuggest').style.display='none';renderRecipeDraft();
+}
+function changeRecipeGram(id,val){
+ let f=recipeDraft.find(x=>x.id===id);if(!f)return;
+ let next=Number(val),old=Number(f.grams);if(!Number.isFinite(next)||next<1||next>10000){toast('Grammi non validi');renderRecipeDraft();return}
+ const k=next/Math.max(old,0.001);
+ for(const key of ['kcal','protein','fat','carbs'])f[key]=round(Number(f[key])*k);
+ f.grams=next;renderRecipeDraft();
+}
+function removeRecipeIngredient(id){recipeDraft=recipeDraft.filter(x=>x.id!==id);renderRecipeDraft()}
+function renderRecipeDraft(){
+ $('recipeitems').innerHTML=recipeDraft.map(f=>`<div class="recipeitem"><b>${esc(f.name)}</b><input aria-label="Grammi ingrediente" type="number" min="1" max="10000" value="${f.grams}" onchange="changeRecipeGram(${f.id},this.value)"><span>${round(f.kcal)} kcal</span><button class="danger" aria-label="Rimuovi ingrediente" onclick="removeRecipeIngredient(${f.id})">×</button></div>`).join('')||'<p class="muted">Nessun ingrediente. Cerca il primo alimento per comporre la tua ricetta.</p>';
+ $('recipetotal').textContent=recipeDraft.length?`Totale ricetta (${Math.round(recipeDraft.reduce((n,x)=>n+(+x.grams||0),0))} g): ${macroText(totals(recipeDraft))}`:'Il calcolo verrà mostrato qui.';
+}
+function clearRecipe(){recipeDraft=[];editingRecipeId=null;$('recipename').value='';$('recipequery').value='';renderRecipeDraft()}
+function saveRecipe(){
+ const name=$('recipename').value.trim(),meal=$('recipemeal').value;
+ if(name.length<2){toast('Dai un nome al pasto');return}
+ if(!recipeDraft.length){toast('Aggiungi almeno un ingrediente');return}
+ let same=state.meals.find(x=>normalizeFood(x.name)===normalizeFood(name));
+ if(same&&same.id!==editingRecipeId&&!confirm('Esiste già questo pasto. Vuoi sostituire la ricetta salvata?'))return;
+ state.meals=state.meals.filter(x=>x.id!==editingRecipeId&&normalizeFood(x.name)!==normalizeFood(name));
+ state.meals.push({id:uid(),name,meal,items:recipeDraft.map(x=>({...x,id:uid(),meal}))});
+ persist();clearRecipe();renderMealPresets();suggestFoods();toast('Ricetta «'+name+'» salvata nella ricerca');
+}
+function editSavedRecipe(id){
+ const meal=state.meals.find(x=>x.id===id);if(!meal)return;
+ editingRecipeId=id;$('recipename').value=meal.name;$('recipemeal').value=meal.meal;
+ recipeDraft=meal.items.map(x=>({...x,id:uid()}));renderRecipeDraft();
+ $('recipecard').scrollIntoView({behavior:'smooth'});toast('Ricetta caricata: modifica e salva');
+}
+function mealMatches(q){
+ const n=normalizeFood(q);if(!n)return[];
+ return state.meals.filter(m=>normalizeFood(m.name).includes(n)||m.items.some(i=>normalizeFood(i.name).includes(n)))
+  .sort((a,b)=>normalizeFood(a.name)===n?-1:normalizeFood(b.name)===n?1:a.name.localeCompare(b.name));
+}
+function suggestFoods(){
+ const el=$('foodsuggest');
+ let q=$('foodquery').value.replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/ig,'').replace(/^\s*1\s+/,'').trim();
+ let recipes=mealMatches(q).slice(0,6),foods=foodMatches(q).slice(0,9);
+ el.innerHTML=recipes.map(m=>{
+  const t=totals(m.items);
+  return `<button type="button" class="foodsuggestitem" style="border-color:#38a28c" onclick="addMealPreset(${m.id})"><b>⭐ Tuo pasto: ${esc(m.name)}</b><small>${esc(m.meal)} · ${m.items.length} ingredienti · 1 porzione · ${macroText(t)}</small></button>`
+ }).join('')+foods.map(f=>`<button type="button" class="foodsuggestitem" onclick='selectFoodSuggestion(${esc(JSON.stringify(f[0]))})'><b>${esc(f[0])}</b><small>${f[1]} kcal · P ${f[2]}g · G ${f[3]}g · C ${f[4]}g /100g</small></button>`).join('');
+ el.style.display=(recipes.length||foods.length)?'grid':'none';
+}
+function addMealPreset(id){
+ let m=state.meals.find(x=>x.id===id);if(!m)return;
+ for(let f of m.items)foodDraft.push({...JSON.parse(JSON.stringify(f)),id:uid(),meal:$('meal').value,sourceMeal:m.name});
+ $('foodquery').value='';$('foodsuggest').style.display='none';renderFood();toast('Aggiunta 1 porzione di «'+m.name+'»');
+}
+function addFood(){
+ let raw=$('foodquery').value.trim(),q=normalizeFood(raw.replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gr|grammi)\b/ig,'').replace(/^\s*1\s+/,''));
+ let custom=state.meals.find(m=>normalizeFood(m.name)===q);
+ if(custom){addMealPreset(custom.id);return}
+ addFoodOriginal();
+}
+function renderMealPresets(){
+ const el=$('mealpresets');if(!el)return;
+ const f=normalizeFood($('mealpresetfilter')?.value||'');
+ el.innerHTML=state.meals.filter(m=>!f||normalizeFood(m.name).includes(f)||m.items.some(i=>normalizeFood(i.name).includes(f))).map(m=>{
+  const t=totals(m.items);
+  return `<div class="historyitem"><div class="row between"><b>${esc(m.name)}</b><span class="tag">${round(t.kcal)} kcal</span></div><div class="muted">${esc(m.meal)} · ${m.items.length} ingredienti · P ${round(t.protein)} g · G ${round(t.fat)} g · C ${round(t.carbs)} g</div><details><summary>Vedi gli ingredienti della ricetta</summary>${m.items.map(i=>`<div>${esc(i.name)} · ${round(i.grams)} g · ${round(i.kcal)} kcal</div>`).join('')}</details><div class="row"><button onclick="addMealPreset(${m.id})">+ Aggiungi al giorno</button><button onclick="editSavedRecipe(${m.id})">Modifica</button><button class="danger" onclick="deleteMealPreset(${m.id})">Elimina</button></div></div>`
+ }).join('')||'<p class="muted">Nessun pasto corrispondente. Crea il tuo primo pasto nel riquadro qui sopra.</p>';
+}
+// Dati Compendium 2024, Conditioning Exercise: pesi multi esercizio 3.5 MET,
+// pesi vigorosi 6.0, circuiti moderati 5.0, calisthenics moderato 3.8.
+// La formula MET include il riposo; le calorie "attive" sottraggono 1 MET.
+function planMET(group){
+ let s=normalizeFood(group);
+ if(s.includes('cardio'))return 6.0;
+ if(s.includes('calisthenics'))return 3.8;
+ if(s.includes('circuit'))return 5.8;
+ return 3.5;
+}
+function estimateBurn(minutes,met,weight=state.profile.weight,net=true){
+ let m=Math.max(0,Math.min(720,Number(minutes)||0));
+ let kg=Math.max(25,Math.min(300,Number(weight)||70));
+ let intensity=Math.max(1,Math.min(12,Number(met)||3.5));
+ return 0.0175*kg*m*(net?Math.max(0,intensity-1):intensity);
+}
+function estimatedBurn(){return Math.round(estimateBurn(+$('workduration').value||60,+$('workintensity').value||3.5));}
+function renderBurnEstimate(){
+ let el=$('burnestimate');if(!el)return;
+ const minutes=+$('workduration').value||60,met=+$('workintensity').value||3.5;
+ let active=Math.round(estimateBurn(minutes,met)),gross=Math.round(estimateBurn(minutes,met,state.profile.weight,false));
+ el.innerHTML=`🔥 <b>~${active} kcal attive</b> (in aggiunta al riposo) · ~${gross} kcal totali durante ${minutes} min, ${met} MET. Sono stime basate su durata, peso e attività con le pause incluse, <b>non misurazioni</b>. Non aggiungerle automaticamente al budget alimentare.`;
+}
+function saveWorkout(){
+ if(!session.length){toast('Aggiungi almeno un esercizio');return}
+ session.forEach(normalized);
+ const duration=+$('workduration').value||60,met=+$('workintensity').value||3.5,kg=+state.profile.weight||70;
+ state.workouts.push({id:Date.now()+Math.random(),date:$('workdate').value||today(),name:$('workname').value||'Allenamento libero',duration,met,burn:Math.round(estimateBurn(duration,met,kg,true)),grossBurn:Math.round(estimateBurn(duration,met,kg,false)),burnMethod:'net-met-2024',weightAtTime:kg,items:JSON.parse(JSON.stringify(session))});
+ persist();session=[];renderSession();renderWorkHistory();toast('Allenamento salvato con calorie attive e dettaglio serie');
+}
+function renderWorkHistory(){
+ $('workhistory').innerHTML=state.workouts.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).map(w=>{
+  let n=(w.items||[]).reduce((a,e)=>a+(e.checked||[]).filter(Boolean).length,0),typ=w.burnMethod==='net-met-2024'?'attive':'(stima precedente, lorda)';
+  return `<div class="historyitem"><button class="ghost" style="text-align:left;width:100%;font-weight:700" onclick="toggleWorkoutDetails(${w.id})">📋 ${esc(fmtDate(w.date))} · ${esc(w.name)} ▾</button><div class="muted">${w.items.length} esercizi · ${n} serie completate · ${round(w.burn||0)} kcal ${typ}</div><div id="detail-${w.id}" style="display:none;margin:10px 0"></div><div class="row" style="margin-top:6px"><button onclick="toggleWorkoutDetails(${w.id})">Dettagli</button><button onclick="repeatWorkout(${w.id})">Ripeti</button><button class="danger" onclick="deleteWorkout(${w.id})">Elimina</button></div></div>`;
+ }).join('')||'<p>Qui trovi gli allenamenti salvati con tutte le singole serie.</p>';
+}
+function repeatWorkout(id){
+ let w=state.workouts.find(x=>x.id===id);if(!w)return;
+ session=w.items.map(e=>normalized({...e,id:uid(),checked:Array(e.sets).fill(false),details:e.details?.map(d=>({...d}))}));
+ $('workname').value=w.name;$('workduration').value=w.duration||60;
+ $('workintensity').value=String(w.met===8?7.5:w.met||3.5);
+ renderSession();go('workout');toast('Caricata la sessione con i carichi precedenti');
+}
+// Rilevazioni fisiche incrementali: il profilo corrente non cancella il passato.
+const progressFields={weight:'Peso',waist:'Vita',hips:'Fianchi',chest:'Torace',thigh:'Coscia',arm:'Braccio',bodyfat:'Grasso stimato'};
+const progressInputIds={weight:'progweight',waist:'progwaist',hips:'proghips',chest:'progchest',thigh:'progthigh',arm:'progarm',bodyfat:'progfat'};
+function setupProgressForm(){if($('progdate')&&!$('progdate').value)$('progdate').value=today();if($('progweight')&&!$('progweight').value)$('progweight').value=state.profile.weight||'';}
+function saveProgressEntry(){
+ const entry={id:uid(),date:$('progdate').value||today(),notes:$('prognotes').value.trim(),recordedAt:new Date().toISOString()};
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(entry.date)){toast('Indica una data valida');return}
+ let count=0;
+ for(let [field,id] of Object.entries(progressInputIds)){
+  let raw=$(id).value.trim();if(raw==='')continue;
+  let n=Number(raw);if(!Number.isFinite(n)||n<=0||n>400){toast('Controlla '+progressFields[field]);return}
+  entry[field]=n;count++;
+ }
+ if(!count&&!entry.notes){toast('Inserisci almeno una misura o una nota');return}
+ state.progressEntries.push(entry);
+ // Il peso attuale viene aggiornato solo per una rilevazione odierna, non per dati retrodatati.
+ if(entry.date===today()&&entry.weight){state.profile.weight=entry.weight;$('pweight').value=entry.weight;}
+ persist();
+ for(let id of Object.values(progressInputIds))if(id!=='progweight')$(id).value='';
+ $('prognotes').value='';renderProgressEntries();renderProfileCalc();toast('Nuova rilevazione salvata senza eliminare le precedenti');
+}
+function removeProgressEntry(id){
+ if(!confirm('Vuoi eliminare questa singola rilevazione? Le altre rimarranno salvate.'))return;
+ state.progressEntries=state.progressEntries.filter(x=>String(x.id)!==String(id));persist();renderProgressEntries();
+}
+function sortedProgress(){return state.progressEntries.slice().sort((a,b)=>a.date.localeCompare(b.date)||String(a.recordedAt||'').localeCompare(String(b.recordedAt||'')))}
+function renderProgressEntries(){
+ const arr=sortedProgress(),list=$('progresshistory'),summary=$('progresssummary');if(!list||!summary)return;
+ function change(key){let all=arr.filter(x=>Number.isFinite(+x[key])&&x[key]!==null&&x[key]!==undefined);if(all.length<2)return null;let first=all[0],last=all[all.length-1];return {first,last,delta:round(last[key]-first[key])}}
+ let weigh=change('weight'),waist=change('waist');
+ summary.innerHTML=[['Rilevazioni',arr.length],['Peso',weigh?`${round(weigh.delta)>0?'+':''}${weigh.delta} kg dal ${fmtDate(weigh.first.date)}`:'In attesa di due misurazioni'],['Girovita',waist?`${waist.delta>0?'+':''}${waist.delta} cm dal ${fmtDate(waist.first.date)}`:'In attesa di due misurazioni']].map(([a,b])=>`<div class="card soft"><small>${a}</small><div style="font-weight:750;margin-top:8px">${esc(String(b))}</div></div>`).join('');
+ list.innerHTML=arr.slice().reverse().map(e=>{
+  let measures=Object.entries(progressFields).filter(([k])=>e[k]!==undefined&&e[k]!==null).map(([k,label])=>`${label}: <b>${round(e[k])}${k==='weight'?' kg':k==='bodyfat'?'%':' cm'}</b>`).join(' · ');
+  return `<div class="historyitem"><div class="row between"><b>${esc(fmtDate(e.date))}</b><button class="danger" onclick='removeProgressEntry(${JSON.stringify(e.id)})'>Elimina</button></div><div style="margin:7px 0;font-size:13px">${measures||'Solo note'}</div>${e.notes?`<div class="muted">${esc(e.notes)}</div>`:''}</div>`;
+ }).join('')||'<p>Non hai ancora rilevazioni. Puoi iniziare anche registrando solo il peso.</p>';
+ $('weightlist').innerHTML=arr.slice(-4).reverse().map(e=>`<div class="historyitem">${esc(fmtDate(e.date))} · <b>${e.weight?round(e.weight)+' kg':'Altre misure'}</b></div>`).join('')||'<p>Non hai ancora registrazioni.</p>';
+}
+function renderProfile(){renderProfileOriginal();setupProgressForm();renderProgressEntries()}
+// Filtri export e dati effettivamente salvati.
+function updateExportUI(){
+ let mode=$('reportmode').value;
+ $('reportstartlabel').style.display=mode==='all'?'none':'grid';
+ $('reportendlabel').style.display=mode==='range'?'grid':'none';
+ $('reportstartlabel').firstChild.textContent=mode==='range'?'Dal giorno':'Data da esportare';
+}
+function reportOptions(){
+ let mode=$('reportmode').value,start=$('reportstart').value,end=mode==='range'?$('reportend').value:start;
+ if(mode==='all'){start='0000-01-01';end='9999-12-31'}
+ if(mode!=='all'&&(!start||!end||end<start))throw Error('Seleziona date valide: la data finale deve essere uguale o successiva alla prima.');
+ return {mode,start,end,scope:$('repprogressscope').value,profile:$('repProfile').checked,nutrition:$('repNutrition').checked,workout:$('repWorkout').checked,progress:$('repProgress').checked};
+}
+function reportData(){
+ let opts=reportOptions(),included=date=>date>=opts.start&&date<=opts.end;
+ const meals=(opts.nutrition?state.nutrition:[]).filter(x=>included(x.date)).sort((a,b)=>a.date.localeCompare(b.date));
+ const workouts=(opts.workout?state.workouts:[]).filter(x=>included(x.date)).sort((a,b)=>a.date.localeCompare(b.date));
+ let measures=(opts.progress?sortedProgress():[]).filter(p=>opts.scope==='all'||(opts.scope==='upto'?p.date<=opts.end:included(p.date)));
+ let dates=Array.from(new Set([...meals.map(x=>x.date),...workouts.map(x=>x.date)])).sort();
+ if(opts.mode==='day'&&!dates.length)dates=[opts.start];
+ return {opts,meals,workouts,measures,dates};
+}
+function previewReport(){
+ try{
+  let r=reportData();
+  let kcal=r.meals.reduce((s,x)=>s+(Number(x.totals?.kcal)||0),0);
+  $('reportpreview').innerHTML=`<div class="stack"><div><b>Periodo:</b> ${r.opts.mode==='all'?'Intero storico':fmtDate(r.opts.start)+(r.opts.mode==='range'?' — '+fmtDate(r.opts.end):'')}</div><div><b>Giornate alimentari:</b> ${r.meals.length}</div><div><b>Energia registrata:</b> ${Math.round(kcal)} kcal totali nel periodo</div><div><b>Allenamenti:</b> ${r.workouts.length}</div><div><b>Rilevazioni incluse:</b> ${r.measures.length}</div><div><b>Profilo:</b> ${r.opts.profile?'incluso (valori correnti)':'escluso'}</div></div><p class="muted">Verranno inclusi gli ingredienti e tutte le singole serie archiviate, se presenti.</p>`;
+ }catch(e){toast(e.message)}
+}
+function reportFilename(opts){return `FitLab_Report_${opts.mode==='all'?'Completo':opts.mode==='range'?opts.start+'_al_'+opts.end:opts.start}.pdf`}
+// Generatore PDF offline incorporato: A4, paginazione, testo ricercabile, charset WinAnsi.
+function pdfSafeText(v){
+ return String(v??'').replace(/[\u{1F000}-\u{1FFFF}]/gu,'').replace(/[\u2600-\u27BF]/g,'').replace(/[\u200B-\u200D]/g,'').replace(/×/g,'x').replace(/→/g,'->').replace(/–|—/g,'-').replace(/\u2022/g,'-');
+}
+function pdfLiteral(s){
+ const win={8216:145,8217:146,8220:147,8221:148,8364:128};
+ let out='';for(const c of pdfSafeText(s)){
+  let n=c.codePointAt(0);if(win[n])n=win[n];
+  if(n<32&&n!==9){out+=' ';continue}
+  if(n>255){out+='?';continue}
+  if(n===40||n===41||n===92){out+='\\'+String.fromCharCode(n);continue}
+  if(n>126){out+='\\'+n.toString(8).padStart(3,'0');continue}
+  out+=String.fromCharCode(n);
+ }return out;
+}
+function buildReportPdf(data){
+ let pages=[],lines=[],y=774;
+ const baseColor='0.13 0.21 0.30',mutedColor='0.35 0.43 0.49',green='0.05 0.49 0.40';
+ function paintPage(){
+  lines.push('0.06 0.13 0.21 rg 0 802 595 40 re f');
+  lines.push(`BT /F2 15 Tf 1 1 1 rg 48 815 Td (${pdfLiteral('FitLab 4.0 | Report personale')}) Tj ET`);
+  lines.push('0.22 0.74 0.59 rg 48 799 499 2 re f');
+ }
+ function newPage(){if(lines.length)pages.push(lines.join('\n'));lines=[];y=775;paintPage()}
+ function pdfText(s,size=10,bold=false,indent=0,color=baseColor){
+  let txt=pdfSafeText(s),maxChars=Math.max(24,Math.floor((501-indent)/Math.max(4.5,size*.52)));
+  let chunks=[];
+  for(const paragraph of txt.split(/\n/)){
+   if(!paragraph.trim()){chunks.push('');continue}
+   let words=paragraph.split(/\s+/),row='';
+   for(let word of words){
+    while(word.length>maxChars){if(row){chunks.push(row);row=''}chunks.push(word.slice(0,maxChars));word=word.slice(maxChars)}
+    if(!word)continue;
+    if((row?row.length+1:0)+word.length>maxChars){chunks.push(row);row=word}else row+=(row?' ':'')+word;
+   }
+   if(row)chunks.push(row);
+  }
+  for(const c of chunks){let leading=Math.max(13,size*1.32);if(y-leading<52)newPage();
+   if(c)lines.push(`BT /F${bold?2:1} ${size} Tf ${color} rg 1 0 0 1 ${48+indent} ${y} Tm (${pdfLiteral(c)}) Tj ET`);
+   y-=leading;
+  }
+ }
+ function heading(s){if(y<120)newPage();y-=8;pdfText(s,13,true,0,green);y-=3}
+ function note(s){pdfText(s,8.5,false,0,mutedColor)}
+ function divider(){if(y<70)newPage();lines.push(`0.78 0.84 0.87 RG 48 ${y} m 547 ${y} l S`);y-=12}
+ function line(s){pdfText(s,9.6,false)}
+ newPage();
+ heading('Riepilogo del periodo');
+ line('Data di generazione: '+new Date().toLocaleString('it-IT'));
+ line('Periodo: '+(data.opts.mode==='all'?'Tutti i dati salvati':fmtDate(data.opts.start)+(data.opts.mode==='range'?' - '+fmtDate(data.opts.end):'')));
+ note('Report locale: nessun dato trasmesso a server esterni. Calorie e macro alimentari sono stime; calorie allenamento non misurate.');
+ note('Stima allenamento: Compendium 2024, MET, kcal attive = 0,0175 x kg x minuti x (MET - 1). Non sottrarre dal budget alimentare senza valutare il livello di attivita gia considerato.');
+ divider();
+ if(data.opts.profile){
+  const p=state.profile,t=target();heading('Profilo personale (valori attuali)');
+  line('Nome: '+(p.name||'Non indicato')+' | Nascita: '+fmtDate(p.birth)+' | Altezza: '+(p.height||'-')+' cm');
+  line('Peso attuale: '+(p.weight||'-')+' kg | Peso obiettivo: '+(p.targetweight||'-')+' kg');
+  line('Obiettivo: '+(fitnessGoals[p.goal]||p.goal||'-')+' | Attivita: '+(p.activity||'-')+' | Target calorico attuale: '+(t.kcal||'n.d.')+' kcal/die');
+  line('Macro target attuali: proteine '+(t.protein||0)+' g, grassi '+(t.fat||0)+' g, carboidrati '+(t.carbs??'n.d.')+' g');
+  note('Il profilo e il target qui riportati sono quelli attuali, non una ricostruzione retroattiva. I resoconti alimentari conservano anche il target salvato nel giorno.');
+  divider();
+ }
+ const totalFood=data.meals.reduce((a,x)=>a+(Number(x.totals?.kcal)||0),0);
+ const currentActive=data.workouts.filter(w=>w.burnMethod==='net-met-2024').reduce((a,w)=>a+(Number(w.burn)||0),0);
+ const legacy=data.workouts.filter(w=>w.burnMethod!=='net-met-2024').length;
+ heading('Riepilogo delle registrazioni');
+ line('Giornate alimentari: '+data.meals.length+' | Calorie complessive registrate: '+Math.round(totalFood)+' kcal');
+ line('Allenamenti: '+data.workouts.length+' | Calorie attive stimate (metodo aggiornato): '+Math.round(currentActive)+' kcal');
+ if(legacy)note('Sono presenti '+legacy+' allenamenti precedenti con un diverso metodo di stima: non sommati alle calorie attive.');
+ divider();
+ if(data.opts.nutrition||data.opts.workout){
+  heading('Dettaglio giornaliero');
+  if(!data.dates.length)note('Nessuna giornata alimentare o allenamento salvato nel periodo scelto.');
+  for(const day of data.dates){
+   heading('Giorno '+fmtDate(day));
+   const f=data.meals.find(x=>x.date===day),ww=data.workouts.filter(x=>x.date===day);
+   if(data.opts.nutrition){
+    if(f){
+     const t=f.totals||totals(f.items||[]);
+     line('ALIMENTAZIONE - '+macroText(t));
+     if(f.target)line('Target calorico salvato: '+f.target+' kcal | Scostamento introito-target: '+(t.kcal-f.target>0?'+':'')+Math.round(t.kcal-f.target)+' kcal');
+     const groups=[...new Set((f.items||[]).map(x=>x.meal||'Altro'))];
+     for(const g of groups){
+      pdfText(g.toUpperCase(),9.5,true,8,green);
+      for(const x of (f.items||[]).filter(x=>(x.meal||'Altro')===g)){
+       pdfText('- '+(x.name||'Alimento')+' | '+round(x.grams||0)+' g | '+Math.round(x.kcal||0)+' kcal | P '+round(x.protein||0)+' g | G '+round(x.fat||0)+' g | C '+round(x.carbs||0)+' g'+(x.sourceMeal?' [Ricetta: '+x.sourceMeal+']':''),8.5,false,12);
+      }
+     }
+    }else note('Nessun diario alimentare salvato per questo giorno.');
+   }
+   if(data.opts.workout){
+    if(ww.length){
+     for(const w of ww){
+      const method=w.burnMethod==='net-met-2024'?'calorie attive':'stima precedente, calorie lorde';
+      line('ALLENAMENTO - '+w.name+' | '+(w.duration||'?')+' min | '+round(w.burn||0)+' kcal ('+method+')');
+      if(w.burnMethod==='net-met-2024')note('Peso registrato: '+round(w.weightAtTime||0)+' kg | '+round(w.met||0)+' MET | Calorie lorde '+round(w.grossBurn||0)+' kcal');
+      for(const e of (w.items||[])){
+       pdfText('Esercizio: '+e.name+' | programma '+(e.sets||0)+' x '+(e.reps||0),9.5,true,6);
+       const d=e.details||[];
+       for(let i=0;i<Math.max(+e.sets||0,d.length);i++){
+        let detail=d[i]||{reps:e.reps,kg:e.kg},done=!!e.checked?.[i];
+        pdfText('Serie '+(i+1)+': '+round(detail.reps??0)+' rip. | '+round(detail.kg??0)+' kg | '+(done?'Completata':'Non spuntata'),8.5,false,14);
+       }
+      }
+     }
+    }else note('Nessun allenamento salvato per questo giorno.');
+   }
+   divider();
+  }
+ }
+ if(data.opts.progress){
+  heading('Progressi fisici: storico selezionato');
+  note('Date e misure registrate, senza eliminare le rilevazioni precedenti. La variazione e calcolata sui valori disponibili.');
+  if(!data.measures.length)note('Non ci sono rilevazioni fisiche nel criterio selezionato.');
+  const weights=data.measures.filter(e=>e.weight!==undefined&&e.weight!==null);
+  const waists=data.measures.filter(e=>e.waist!==undefined&&e.waist!==null);
+  if(weights.length>=2)line('Variazione peso: '+(round(weights.at(-1).weight-weights[0].weight)>0?'+':'')+round(weights.at(-1).weight-weights[0].weight)+' kg, dal '+fmtDate(weights[0].date)+' al '+fmtDate(weights.at(-1).date));
+  if(waists.length>=2)line('Variazione girovita: '+(round(waists.at(-1).waist-waists[0].waist)>0?'+':'')+round(waists.at(-1).waist-waists[0].waist)+' cm');
+  for(const e of data.measures){
+   const info=Object.entries(progressFields).filter(([k])=>e[k]!==undefined&&e[k]!==null).map(([k,l])=>l+' '+round(e[k])+(k==='weight'?' kg':k==='bodyfat'?'%':' cm')).join(' | ');
+   pdfText(fmtDate(e.date)+' | '+info,9.3,true);
+   if(e.notes)pdfText('Note: '+e.notes,8.7,false,12);
+  }
+
+ }
+ pages.push(lines.join('\n'));
+ let objects=[];const set=(id,value)=>{objects[id]=value};
+ set(1,'<< /Type /Catalog /Pages 2 0 R >>');
+ set(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+ set(4,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ let kids=[];
+ for(let i=0;i<pages.length;i++){
+  let p=5+i*2,c=p+1,kidsR=p+' 0 R';kids.push(kidsR);
+  let footer=`BT /F1 8 Tf ${mutedColor} rg 1 0 0 1 48 32 Tm (${pdfLiteral('FitLab | Pagina '+(i+1)+' / '+pages.length)}) Tj ET`;
+  let content=pages[i]+'\n'+footer+'\n';
+  set(p,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${c} 0 R >>`);
+  set(c,`<< /Length ${content.length} >>\nstream\n${content}endstream`);
+ }
+ set(2,`<< /Type /Pages /Count ${kids.length} /Kids [${kids.join(' ')}] >>`);
+ let pdf='%PDF-1.4\n%FitLab\n',offsets=[0];
+ for(let i=1;i<objects.length;i++){offsets[i]=pdf.length;pdf+=`${i} 0 obj\n${objects[i]}\nendobj\n`}
+ let xref=pdf.length;
+ pdf+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;
+ for(let i=1;i<objects.length;i++)pdf+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
+ pdf+=`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+ return new Blob([pdf],{type:'application/pdf'});
+}
+function downloadReportPdf(){
+ try{
+  let data=reportData();if(!data.opts.profile&&!data.opts.nutrition&&!data.opts.workout&&!data.opts.progress)throw Error('Seleziona almeno una sezione');
+  let blob=buildReportPdf(data),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=reportFilename(data.opts);document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  toast('PDF creato: '+a.download);previewReport();
+ }catch(e){console.error(e);toast('Impossibile generare il PDF: '+e.message)}
+}
+// Agganci alle funzioni della precedente versione.
+
+
+/* FitLab 5.0 — stime energetiche per programma e report PDF tabellari */
+const FITLAB_MET_SOURCE='2024 Adult Compendium of Physical Activities (pacompendium.com)';
+const TEMPLATE_MEAN_MET={
+ 'Gambe posteriori e glutei':4.3,
+ 'Gambe complete':4.25,
+ 'Glutei e femorali':4.0,
+ 'Schiena completa e bicipiti':3.9,
+ 'Petto e tricipiti':3.85,
+ 'Spalle e core':3.45,
+ 'Braccia complete':3.45,
+ 'Full body A · forza':4.25,
+ 'Full body B · ipertrofia':4.1,
+ 'Full body C · funzionale':4.5,
+ 'Upper body':3.85,
+ 'Lower body':4.25,
+ 'Push · spinta':3.85,
+ 'Pull · tirata':3.9,
+ 'Calisthenics · progressione':3.8,
+ 'Cardio e mobilità':4.65
+};
+function exerciseIsCompound(name){return /squat|stacco|hip thrust|leg press|affondi|panca piana|panca inclinata|rematore|military press|trazioni|dip alle|step up|shoulder press/i.test(name)}
+function exerciseIsTimed(name){return /camminata|vogatore|cyclette/i.test(name)}
+function planOverview(t){
+ const items=t[2]||[];
+ let sets=0,estimated=10; // circa 10 minuti di riscaldamento
+ for(const e of items){
+  const name=e[0],count=Math.max(1,+e[1]||1),reps=+e[2]||10;
+  sets+=count;
+  if(exerciseIsTimed(name)){estimated+=reps;continue}
+  const compound=exerciseIsCompound(name),timedHold=/plank|stretch|foam roller|mobilità/i.test(name);
+  const setDuration=timedHold?Math.max(.45,Math.min(1.4,reps/60)):.5;
+  const rest=timedHold?.65:compound?2.35:1.55;
+  estimated+=count*setDuration+Math.max(0,count-1)*rest;
+ }
+ estimated+=Math.max(0,items.length-1)*1.8;
+ estimated=Math.max(30,Math.ceil(estimated/5)*5);
+ const met=TEMPLATE_MEAN_MET[t[0]]||3.5;
+ const active=Math.round(estimateBurn(estimated,met));
+ return {sets,minutes:estimated,minMinutes:Math.max(25,estimated-10),maxMinutes:estimated+10,met,active,minActive:Math.round(active*.8),maxActive:Math.round(active*1.2)};
+}
+function planMET(group){return /cardio/i.test(group)?4.65:/calisthenics/i.test(group)?3.8:/gambe|glutei/i.test(group)?4.2:3.8}
+function choosePlanMet(met){
+ const sel=$('workintensity');let opt=[...sel.options].find(o=>Math.abs(Number(o.value)-met)<.001);
+ if(!opt){opt=document.createElement('option');opt.value=String(met);opt.textContent=`${met.toFixed(2).replace('.',',')} MET · stima della scheda`;sel.add(opt)}
+ sel.value=String(met);
+}
+function renderPlans(){
+ const filters=['Tutte',...new Set(TEMPLATES.map(x=>x[1]))];
+ $('planfilters').innerHTML=filters.map(g=>`<button class="${planFilter===g?'active':''}" onclick='planFilter=${JSON.stringify(g)};renderPlans()'>${esc(g)}</button>`).join('');
+ $('planlist').innerHTML=TEMPLATES.filter(t=>planFilter==='Tutte'||t[1]===planFilter).map(t=>{
+  const i=TEMPLATES.indexOf(t),a=planOverview(t);
+  return `<div class="template"><span class="tag">${esc(t[1])}</span><h3 style="margin-top:9px">${esc(t[0])}</h3>
+  ${t[2].map(x=>`<div style="padding:5px 0;color:#c3d4e2">${esc(x[0])} <b>· ${x[1]} × ${x[2]}</b></div>`).join('')}
+  <div class="plananalysis"><b>⏱ ${a.minMinutes}–${a.maxMinutes} min</b><span>${a.sets} serie · ${a.met.toFixed(2).replace('.',',')} MET medi stimati</span><strong>🔥 ${a.minActive}–${a.maxActive} kcal attive</strong><small>Riferimento: ${round(+state.profile.weight||70)} kg. Fascia illustrativa ±20%, non margine di errore garantito; include recuperi e riscaldamento.</small></div>
+  <button class="primary" onclick="usePlan(${i})">Usa questa scheda</button></div>`;
+ }).join('');
+}
+function usePlan(i){
+ const t=TEMPLATES[i];if(!t)return;
+ if(session.length&&!confirm('Sostituire la sessione in corso con questa scheda?'))return;
+ const a=planOverview(t);
+ session=t[2].map((x,j)=>({id:Date.now()+j+Math.random(),name:x[0],sets:x[1],reps:x[2],kg:0,checked:Array(x[1]).fill(false),details:Array.from({length:x[1]},()=>({reps:x[2],kg:0}))}));
+ $('workname').value=t[0];$('workduration').value=a.minutes;choosePlanMet(a.met);
+ renderSession();go('workout');toast(`Scheda caricata: durata iniziale indicativa ${a.minutes} minuti (modificabile).`);
+}
+function currentWorkoutSummary(){
+ const minutes=Math.max(5,Math.min(360,+$('workduration').value||60));
+ const met=Math.max(1,Math.min(12,+$('workintensity').value||3.5));
+ const weight=+state.profile.weight||70;
+ return {minutes,met,weight,burn:Math.round(estimateBurn(minutes,met,weight,true)),gross:Math.round(estimateBurn(minutes,met,weight,false))};
+}
+function renderBurnEstimate(){
+ const el=$('burnestimate');if(!el)return;
+ const a=currentWorkoutSummary();
+ el.innerHTML=`🔥 <b>~${a.burn} kcal attive</b> (fascia molto indicativa ${Math.round(a.burn*.8)}–${Math.round(a.burn*1.2)}) · <b>~${a.gross} kcal totali</b>, compreso il riposo. Durata ${a.minutes} min, ${a.met.toFixed(2).replace('.',',')} MET medi ipotizzati, peso ${round(a.weight)} kg. <br><small>Non tutte le serie consumano allo stesso modo: pause, carichi e velocità modificano la spesa reale. Regola durata e intensità prima di salvare. Non aggiungere automaticamente le kcal attive al budget alimentare.</small>`;
+}
+function saveWorkout(){
+ if(!session.length){toast('Aggiungi almeno un esercizio');return}
+ session.forEach(normalized);
+ const v=currentWorkoutSummary();
+ const record={id:Date.now()+Math.random(),date:$('workdate').value||today(),name:$('workname').value||'Allenamento libero',duration:v.minutes,met:v.met,burn:v.burn,grossBurn:v.gross,burnMethod:'net-met-2024-v2',weightAtTime:v.weight,items:JSON.parse(JSON.stringify(session))};
+ state.workouts.push(record);persist();session=[];renderSession();renderWorkHistory();toast('Allenamento salvato con calorie stimate e dettaglio di ogni serie');
+}
+function repeatWorkout(id){
+ const w=state.workouts.find(x=>x.id===id);if(!w)return;
+ session=w.items.map(e=>normalized({...e,id:uid(),checked:Array(e.sets).fill(false),details:e.details?.map(d=>({...d}))}));
+ $('workname').value=w.name;$('workduration').value=w.duration||60;choosePlanMet(+w.met||3.5);renderSession();go('workout');toast('Caricati esercizi e carichi della sessione precedente');
+}
+function renderWorkHistory(){
+ $('workhistory').innerHTML=state.workouts.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).map(w=>{
+  const n=(w.items||[]).reduce((a,e)=>a+(e.checked||[]).filter(Boolean).length,0);
+  const modern=String(w.burnMethod||'').startsWith('net-met-2024');
+  return `<div class="historyitem"><button class="ghost" style="text-align:left;width:100%;font-weight:700" onclick="toggleWorkoutDetails(${w.id})">📋 ${esc(fmtDate(w.date))} · ${esc(w.name)} ▾</button><div class="muted">${w.items.length} esercizi · ${n} serie completate · ${Math.round(w.burn||0)} kcal ${modern?'attive stimate':'stimate con metodo precedente'}</div><div id="detail-${w.id}" style="display:none;margin:10px 0"></div><div class="row" style="margin-top:6px"><button onclick="toggleWorkoutDetails(${w.id})">Dettagli</button><button onclick="repeatWorkout(${w.id})">Ripeti</button><button class="danger" onclick="deleteWorkout(${w.id})">Elimina</button></div></div>`;
+ }).join('')||'<p>Qui compariranno gli allenamenti salvati con tutte le serie.</p>';
+}
+function progressComparison(arr){
+ const ordered=arr.slice().sort((a,b)=>a.date.localeCompare(b.date)||String(a.recordedAt||'').localeCompare(String(b.recordedAt||'')));
+ return Object.entries(progressFields).map(([key,label])=>{
+  const found=ordered.filter(p=>p[key]!==undefined&&p[key]!==null&&p[key]!==''&&Number.isFinite(Number(p[key])));
+  const a=found[0],b=found[found.length-1],unit=key==='weight'?'kg':key==='bodyfat'?'%':'cm';
+  return {key,label,unit,first:a,last:b,delta:a&&b&&a!==b?round(+b[key]-+a[key]):null};
+ });
+}
+function renderProgressEntries(){
+ const arr=sortedProgress(),list=$('progresshistory'),summary=$('progresssummary');if(!list||!summary)return;
+ const selected=progressComparison(arr),w=selected.find(x=>x.key==='weight'),wa=selected.find(x=>x.key==='waist');
+ function textChange(x){return x?.first&&x?.last?`${round(x.first[x.key])} → ${round(x.last[x.key])} ${x.unit}${x.delta===null?'':` (${x.delta>0?'+':''}${x.delta} ${x.unit})`}`:'Aggiungi almeno una misura'}
+ summary.innerHTML=[['Rilevazioni',arr.length],['Peso: inizio → ultimo',textChange(w)],['Girovita: inizio → ultimo',textChange(wa)]].map(([n,v])=>`<div class="card soft"><small>${esc(n)}</small><div style="font-weight:750;margin-top:8px">${esc(String(v))}</div></div>`).join('');
+ list.innerHTML=arr.slice().reverse().map(e=>{
+  const m=Object.entries(progressFields).filter(([k])=>e[k]!=null).map(([k,label])=>`${label}: <b>${round(e[k])}${k==='weight'?' kg':k==='bodyfat'?'%':' cm'}</b>`).join(' · ');
+  return `<div class="historyitem"><div class="row between"><b>${esc(fmtDate(e.date))}</b><button class="danger" onclick='removeProgressEntry(${JSON.stringify(e.id)})'>Elimina</button></div><div style="margin:7px 0;font-size:13px">${m||'Solo note'}</div>${e.notes?`<div class="muted">${esc(e.notes)}</div>`:''}</div>`;
+ }).join('')||'<p>Non hai ancora rilevazioni. Puoi iniziare con il peso e, quando vuoi, aggiungere le circonferenze.</p>';
+ $('weightlist').innerHTML=arr.slice(-4).reverse().map(e=>`<div class="historyitem">${esc(fmtDate(e.date))} · <b>${e.weight?round(e.weight)+' kg':'Altre misure'}</b></div>`).join('')||'<p>Nessuna misurazione registrata.</p>';
+}
+function previewReport(){
+ try{
+  const r=reportData(),comparisons=progressComparison(r.measures),w=comparisons.find(x=>x.key==='weight');
+  const kcal=r.meals.reduce((s,x)=>s+(Number(x.totals?.kcal)||0),0);
+  const burn=r.workouts.filter(w=>String(w.burnMethod||'').startsWith('net-met-2024')).reduce((s,w)=>s+(Number(w.burn)||0),0);
+  $('reportpreview').innerHTML=`<div class="stack"><div><b>Periodo:</b> ${r.opts.mode==='all'?'Tutto lo storico':fmtDate(r.opts.start)+(r.opts.mode==='range'?' — '+fmtDate(r.opts.end):'')}</div><div><b>Diari alimentari:</b> ${r.meals.length}</div><div><b>Calorie alimentari:</b> ${Math.round(kcal)} kcal</div><div><b>Allenamenti:</b> ${r.workouts.length}</div><div><b>Calorie attive stimate:</b> ${Math.round(burn)} kcal (solo metodo compatibile)</div><div><b>Progressi:</b> ${w.first?round(w.first.weight)+' kg ('+fmtDate(w.first.date)+')':'—'} → ${w.last?round(w.last.weight)+' kg ('+fmtDate(w.last.date)+')':'—'}</div></div><p class="muted">Il PDF presenta le misure in tabella: prima e ultima rilevazione, con differenza; non tutte le misure intermedie.</p>`;
+ }catch(e){toast(e.message)}
+}
+// Report PDF incorporato, tabellare, offline, A4 e su più pagine.
+function buildReportPdf(data){
+ const PAGE_W=595,PAGE_H=842,MARGIN=44,CONTENT_W=507,BOTTOM=58;
+ const pages=[];let cmds=[],y=766;
+ const C={dark:'0.08 0.16 0.23',mid:'0.10 0.28 0.33',green:'0.05 0.47 0.39',white:'1 1 1',body:'0.13 0.21 0.29',muted:'0.39 0.45 0.51',pale:'0.94 0.97 0.98',line:'0.79 0.85 0.87'};
+ const txt=(s,x,yy,size=9,bold=false,color=C.body)=>{cmds.push(`BT /F${bold?2:1} ${size} Tf ${color} rg 1 0 0 1 ${x.toFixed(1)} ${yy.toFixed(1)} Tm (${pdfLiteral(s)}) Tj ET`)};
+ const rect=(x,yy,w,h,color)=>{cmds.push(`${color} rg ${x.toFixed(1)} ${yy.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re f`)};
+ const horiz=(yy)=>cmds.push(`${C.line} RG ${MARGIN} ${yy.toFixed(1)} m ${MARGIN+CONTENT_W} ${yy.toFixed(1)} l S`);
+ function newPage(){if(cmds.length)pages.push(cmds.join('\n'));cmds=[];y=766;rect(0,799,PAGE_W,43,C.dark);txt('FITLAB 5.0  |  REPORT PERSONALE',MARGIN,816,15,true,C.white);rect(MARGIN,795,CONTENT_W,3,C.green)}
+ function ensure(h){if(y-h<BOTTOM)newPage()}
+ function wrap(text,width,size=8.6){
+  const approx=Math.max(5,Math.floor((width-12)/(size*.52)));const lines=[];
+  for(const paragraph of pdfSafeText(text??'').split(/\n/)){
+   let words=paragraph.split(/\s+/),line='';
+   for(let w of words){if(!w)continue;while(w.length>approx){if(line){lines.push(line);line=''}lines.push(w.slice(0,approx));w=w.slice(approx)}if(!w)continue;if((line?line.length+1:0)+w.length>approx){lines.push(line);line=w}else line+=(line?' ':'')+w}
+   if(line)lines.push(line);else if(!paragraph)lines.push('');
+  }
+  return lines.length?lines:[''];
+ }
+ function section(t){ensure(37);y-=13;txt(t,MARGIN,y,12,true,C.green);y-=10;horiz(y);y-=12}
+ function note(t){let a=wrap(t,CONTENT_W,8.3);ensure(a.length*12+4);a.forEach(l=>{txt(l,MARGIN,y,8.3,false,C.muted);y-=11});y-=4}
+ function table(headers,rows,widths){
+  const sizes=headers.length>5?7.6:8.4;
+  function one(values,isHeader,idx){
+   const size=isHeader?Math.max(7,sizes-.1):sizes;
+   const lines=values.map((v,i)=>wrap(v,widths[i],size));
+   const maxLines=Math.max(...lines.map(a=>a.length),1);const height=Math.max(isHeader?25:23,maxLines*11+11);
+   ensure(height+3);
+   rect(MARGIN,y-height,CONTENT_W,height,isHeader?C.mid:idx%2?C.white:C.pale);
+   let x=MARGIN;
+   lines.forEach((ll,i)=>{for(let n=0;n<ll.length;n++)txt(ll[n],x+6,y-14-n*11,size,isHeader,isHeader?C.white:C.body);x+=widths[i]});
+   y-=height;
+   horiz(y);
+  }
+  const widthsSum=widths.reduce((a,b)=>a+b,0);if(Math.abs(widthsSum-CONTENT_W)>.01)throw Error('Larghezze tabella non valide');
+  one(headers,true,0);
+  rows.forEach((r,i)=>{
+   const h=Math.max(...r.map((v,j)=>wrap(v,widths[j],sizes).length))*11+11;
+   if(y-h<BOTTOM){newPage();one(headers,true,0)}
+   one(r,false,i)
+  });
+  y-=10;
+ }
+ newPage();
+ const o=data.opts,fmt=d=>fmtDate(d),period=o.mode==='all'?'Tutto lo storico':fmt(o.start)+(o.mode==='range'?' - '+fmt(o.end):'');
+ section('REPORT  |  '+period);
+ note('Generato il '+new Date().toLocaleString('it-IT')+'. Dati salvati localmente nel browser. I valori di energia e nutrienti sono stime.');
+ if(o.progress){
+  section('Evoluzione fisica: INIZIO vs ULTIMA RILEVAZIONE');
+  let all=progressComparison(data.measures), rows=all.map(v=>{
+   const f=v.first,l=v.last;
+   const first=f?`${round(f[v.key])} ${v.unit} (${fmt(f.date)})`:'—';
+   const last=l?`${round(l[v.key])} ${v.unit} (${fmt(l.date)})`:'—';
+   const delta=v.delta===null?'—':`${v.delta>0?'+':''}${v.delta} ${v.unit}`;
+   return [v.label,first,last,delta];
+  });
+  table(['Misura','All\'inizio','Ultima disponibile','Differenza'],rows,[112,151,151,93]);
+  note('Sono mostrate soltanto la prima e l\'ultima misurazione disponibile di ogni parametro, fino alla fine del periodo selezionato (secondo il filtro scelto). Le registrazioni intermedie restano salvate nell\'app.');
+ }
+ if(o.profile){
+  const p=state.profile,t=target();
+  section('Profilo e obiettivi');
+  const prows=[['Nome',p.name||'Non indicato'],['Nascita',fmt(p.birth)],['Altezza',(p.height||'-')+' cm'],['Peso profilo attuale',(p.weight||'-')+' kg'],['Peso desiderato',(p.targetweight||'-')+' kg'],['Obiettivo',fitnessGoals[p.goal]||p.goal||'-'],['Target calorico attuale',t.kcal?t.kcal+' kcal/die':'Non calcolato'],['Macro obiettivo',`${round(t.protein||0)} g proteine / ${round(t.fat||0)} g grassi / ${round(t.carbs||0)} g carboidrati`]];
+  table(['Dato','Valore'],prows,[185,322]);
+  note('I dati del profilo e il target sono quelli attualmente impostati, non ricostruzioni storiche. Il peso documentato al giorno selezionato e nella tabella progressi sottostante.');
+ }
+ const validNew=w=>String(w.burnMethod||'').startsWith('net-met-2024');
+ const totalFood=data.meals.reduce((sum,f)=>sum+(+f.totals?.kcal||0),0),totalBurn=data.workouts.filter(validNew).reduce((sum,w)=>sum+(+w.burn||0),0),legacyCount=data.workouts.filter(w=>!validNew(w)).length;
+ section('Quadro del periodo');
+ table(['Voce','Risultato'],[['Giornate alimentari',String(data.meals.length)],['Calorie alimentari registrate',`${Math.round(totalFood)} kcal`],['Allenamenti',String(data.workouts.length)],['Calorie ATTIVE stimate',`${Math.round(totalBurn)} kcal${legacyCount?' + '+legacyCount+' sessioni precedenti non sommabili':''}`]],[332,175]);
+ if(o.nutrition||o.workout){
+  section('Diario dettagliato per giornata');
+  if(!data.dates.length)note('Nessuna giornata alimentare o allenamento salvato nel periodo.');
+  for(const d of data.dates){
+   section('Giorno '+fmt(d));
+   const f=data.meals.find(x=>x.date===d),work=data.workouts.filter(x=>x.date===d);
+   if(o.nutrition){
+    if(f){
+     const t=f.totals||totals(f.items||[]);
+     note(`Alimentazione: ${round(t.kcal)} kcal, ${round(t.protein)} g proteine, ${round(t.fat)} g grassi, ${round(t.carbs)} g carboidrati.${f.target?' Target del giorno: '+f.target+' kcal, differenza: '+Math.round(t.kcal-f.target)+' kcal.':''}`);
+     const rows=(f.items||[]).map(v=>[v.meal||'—',v.name||'Alimento',round(v.grams||0)+' g',String(Math.round(v.kcal||0)),String(round(v.protein||0)),String(round(v.fat||0)),String(round(v.carbs||0))]);
+     rows.push(['TOTALE','', '',String(Math.round(t.kcal)),String(round(t.protein)),String(round(t.fat)),String(round(t.carbs))]);
+     table(['Pasto','Alimento','Peso','kcal','P (g)','G (g)','C (g)'],rows,[75,168,52,53,53,53,53]);
+    }else note('Alimentazione: nessuna giornata salvata.');
+   }
+   if(o.workout){
+    if(!work.length)note('Allenamento: nessuna sessione salvata.');
+    for(const w of work){
+     section('Allenamento: '+w.name);
+     const modern=validNew(w),label=modern?'attive stimate':'vecchio metodo (non confrontabile)';
+     table(['Durata','Calorie','Peso rilevato','MET medi'],[[`${w.duration||'?'} min`,`${Math.round(w.burn||0)} kcal ${label}`,w.weightAtTime?`${round(w.weightAtTime)} kg`:'—',w.met?String(round(w.met)):'—']],[85,230,112,80]);
+     let rows=[];
+     for(const e of (w.items||[])){const details=e.details||[];const count=Math.max(+e.sets||0,details.length);
+      for(let i=0;i<count;i++){
+       const s=details[i]||{reps:e.reps,kg:e.kg};rows.push([e.name||'Esercizio',String(i+1)+'/'+count,String(round(s.reps??0)),String(round(s.kg??0)),e.checked?.[i]?'Svolta':'Non spuntata']);
+      }
+     }
+     table(['Esercizio','Serie','Rip.','Carico kg','Stato'],rows,[216,54,56,80,101]);
+    }
+   }
+  }
+ }
+ note('Metodo kcal: (MET - 1) x 0,0175 x peso in kg x minuti, per calorie attive; MET x lo stesso fattore per totali. Sono stime indicative, non calorie misurate. Fonte: 2024 Adult Compendium of Physical Activities. Non sottrarle automaticamente dal target se l\'attivita e gia inclusa nel fabbisogno.');
+ if(cmds.length)pages.push(cmds.join('\n'));
+ const objs=[];const put=(id,str)=>objs[id]=str;
+ put(1,'<< /Type /Catalog /Pages 2 0 R >>');
+ put(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+ put(4,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ const kids=[];
+ for(let i=0;i<pages.length;i++){
+  const id=5+i*2,streamId=id+1;kids.push(`${id} 0 R`);
+  const footer=`BT /F1 8 Tf ${C.muted} rg 1 0 0 1 ${MARGIN} 32 Tm (${pdfLiteral('FITLAB | Pagina '+(i+1)+' / '+pages.length)}) Tj ET`;
+  const body=pages[i]+'\n'+footer+'\n';
+  put(id,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PAGE_W} ${PAGE_H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${streamId} 0 R >>`);
+  put(streamId,`<< /Length ${body.length} >>\nstream\n${body}endstream`);
+ }
+ put(2,`<< /Type /Pages /Count ${kids.length} /Kids [${kids.join(' ')}] >>`);
+ let pdf='%PDF-1.4\n%FitLab\n',offsets=[0];
+ for(let i=1;i<objs.length;i++){offsets[i]=pdf.length;pdf+=`${i} 0 obj\n${objs[i]}\nendobj\n`}
+ const xref=pdf.length;
+ pdf+=`xref\n0 ${objs.length}\n0000000000 65535 f \n`;
+ for(let i=1;i<objs.length;i++)pdf+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
+ pdf+=`trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+ return new Blob([pdf],{type:'application/pdf'});
+}
+
+/* FITLAB 6.0 — interfaccia compatta, diario senza spunte, PDF essenziale */
+const fit6SessionsCount=items=>(items||[]).reduce((n,e)=>n+Math.max(1,Number(e.sets)||1),0);
+function fit6ExerciseGroups(e){
+ const n=Math.max(1,Number(e.sets)||1);
+ if(e.format==='compact'||!e.details?.length)return [{sets:n,reps:Number(e.reps)||10,kg:Number(e.kg)||0}];
+ const entries=Array.from({length:n},(_,i)=>({reps:Number(e.details?.[i]?.reps??e.reps)||10,kg:Number(e.details?.[i]?.kg??e.kg)||0}));
+ const out=[];for(const a of entries){const last=out[out.length-1];if(last&&last.reps===a.reps&&last.kg===a.kg)last.sets++;else out.push({sets:1,...a})}
+ return out;
+}
+function fit6ExText(e){const g=fit6ExerciseGroups(e);return g.map(z=>`${z.sets} × ${z.reps}${z.kg?` · ${round(z.kg)} kg`:''}`).join(' / ')}
+function fit6Schema(e){return fit6ExerciseGroups(e).map(z=>`${z.sets} × ${z.reps}`).join(' + ')}
+function fit6Kg(e){return [...new Set(fit6ExerciseGroups(e).map(z=>round(z.kg)))].map(x=>x?`${x} kg`:'—').join(' / ')}
+function renderSession(){
+ renderBurnEstimate();
+ const n=session.length,s=fit6SessionsCount(session);
+ $('workprogress').innerHTML=`${n} <small style="font-size:.48em;color:#a5bacb">esercizi</small><div style="font-size:13px;font-weight:500;color:#9cb4c5;margin-top:5px">${s} serie previste · nessuna spunta richiesta</div>`;
+ $('workfill').style.width=(n?'100':'0')+'%';
+ $('session').innerHTML=n?session.map((e,i)=>`<div class="exercise fit6-exercise"><div class="row between" style="margin-bottom:12px"><div class="row"><span class="fit6-exno">${String(i+1).padStart(2,'0')}</span><b>${esc(e.name)}</b></div><button class="danger fit6-delete" aria-label="Rimuovi ${esc(e.name)}" onclick="removeEx(${e.id})">×</button></div><div class="fit6-exfields"><label>Serie<input type="number" min="1" max="20" value="${e.sets}" onchange="updateEx(${e.id},'sets',this.value)"></label><label>Ripetizioni<input type="number" min="1" max="600" value="${e.reps}" onchange="updateEx(${e.id},'reps',this.value)"></label><label>Carico (kg)<input type="number" min="0" step="0.5" value="${e.kg??0}" onchange="updateEx(${e.id},'kg',this.value)"></label><div class="fit6-schema"><small>SCHEMA</small><b>${e.sets} × ${e.reps}</b></div></div></div>`).join(''):'<div class="fit6-empty"><div class="fit6-empty-icon">↗</div><b>La tua sessione inizia qui</b><p>Seleziona gli esercizi dalla ricerca oppure carica una scheda. Inserisci una volta serie, ripetizioni e kg.</p></div>';
+}
+function updateEx(id,field,value){
+ const e=session.find(x=>x.id===id);if(!e)return;
+ const num=Number(value);if(!Number.isFinite(num)){toast('Inserisci un numero valido');return}
+ if(field==='sets')e.sets=Math.max(1,Math.min(20,Math.round(num)));
+ if(field==='reps')e.reps=Math.max(1,Math.min(600,Math.round(num)));
+ if(field==='kg')e.kg=Math.max(0,Math.min(999,num));
+ e.format='compact';e.details=[];renderSession();
+}
+function addExercise(name,sets,reps){
+ if(!name)return;const ss=Number(sets||$('newsets').value||3),rr=Number(reps||$('newreps').value||10),kg=Number($('newkg').value)||0;
+ if(!(ss>=1&&ss<=20&&rr>=1&&rr<=600&&kg>=0)){toast('Controlla serie, ripetizioni e kg');return}
+ session.push({id:uid(),name,sets:ss,reps:rr,kg,format:'compact'});renderSession();toast(`${name} aggiunto · ${ss} × ${rr}`);
+}
+function saveWorkout(){
+ if(!session.length){toast('Aggiungi almeno un esercizio');return}
+ const v=currentWorkoutSummary();
+ const items=session.map(e=>({id:e.id,name:e.name,sets:Number(e.sets),reps:Number(e.reps),kg:Number(e.kg)||0,format:'compact'}));
+ const record={id:uid(),date:$('workdate').value||today(),name:$('workname').value.trim()||'Allenamento libero',duration:v.minutes,met:v.met,burn:v.burn,grossBurn:v.gross,burnMethod:'net-met-2024-v2',weightAtTime:v.weight,items};
+ state.workouts.push(record);persist();session=[];renderSession();renderWorkHistory();toast(`Allenamento registrato: ${items.length} esercizi, ${fit6SessionsCount(items)} serie`);
+}
+function renderWorkHistory(){
+ $('workhistory').innerHTML=state.workouts.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).map(w=>`<div class="historyitem fit6-history"><button class="ghost fit6-history-title" onclick="toggleWorkoutDetails(${w.id})"><b>${esc(fmtDate(w.date))}</b><span>${esc(w.name||'Allenamento')}</span><span class="fit6-open">⌄</span></button><div class="muted fit6-history-meta">${w.items?.length||0} esercizi · ${fit6SessionsCount(w.items)} serie · ~${Math.round(w.burn||0)} kcal attive${!String(w.burnMethod||'').startsWith('net-met-2024')?' (stima precedente)':''}</div><div id="detail-${w.id}" style="display:none;margin:10px 0"></div><div class="row fit6-history-actions"><button onclick="toggleWorkoutDetails(${w.id})">Visualizza</button><button onclick="repeatWorkout(${w.id})">Ripeti</button><button class="danger" onclick="deleteWorkout(${w.id})">Elimina</button></div></div>`).join('')||'<p class="muted">Le sessioni salvate compariranno qui: un esercizio per riga, con il suo schema e il peso.</p>';
+}
+function toggleWorkoutDetails(id){
+ const w=state.workouts.find(x=>x.id===id),el=$('detail-'+id);if(!w||!el)return;
+ if(el.style.display!=='none'){el.style.display='none';return}
+ el.innerHTML=`<div class="fit6-history-summary">Durata ${w.duration||'—'} min · ~${Math.round(w.burn||0)} kcal attive stimate</div><div class="fit6-table-scroll"><table class="fit6-compact-table"><thead><tr><th>Esercizio</th><th>Schema</th><th>Peso</th></tr></thead><tbody>${(w.items||[]).map(e=>`<tr><td>${esc(e.name)}</td><td>${esc(fit6Schema(e))}</td><td>${esc(fit6Kg(e))}</td></tr>`).join('')}</tbody></table></div>`;
+ el.style.display='block';
+}
+function repeatWorkout(id){
+ const w=state.workouts.find(x=>x.id===id);if(!w)return;
+ if(session.length&&!confirm('Sostituire la sessione in corso?'))return;
+ session=w.items.map(e=>({id:uid(),name:e.name,sets:e.sets,reps:e.reps,kg:e.kg??e.details?.[0]?.kg??0,format:'compact'}));
+ $('workname').value=w.name;$('workduration').value=w.duration||60;choosePlanMet(Number(w.met)||3.5);
+ renderSession();go('workout');toast('Allenamento caricato: modifica soltanto i valori che cambiano');
+}
+function renderDashboard(){
+ const t=target(),last=state.nutrition.slice().sort((a,b)=>b.date.localeCompare(a.date))[0],count=state.workouts.length;
+ $('dashstats').innerHTML=[['Obiettivo',fitnessGoals[state.profile.goal]||'—','◎'],['Calorie giornaliere',t.kcal?`${t.kcal} kcal`:'Da impostare','⚡'],['Proteine target',`${t.protein} g`,'◈'],['Allenamenti registrati',count,'↗'],['Ultimo diario',last?fmtDate(last.date):'—','▣'],['Peso attuale',`${round(state.profile.weight)} kg`,'◇']].map(([title,val,glyph])=>`<div class="card fit6-stat"><div class="fit6-stat-icon">${glyph}</div><small>${esc(title)}</small><div class="stat">${esc(val)}</div></div>`).join('');
+ $('dashwork').innerHTML=state.workouts.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(w=>`<div class="historyitem fit6-list-line"><b>${esc(w.name||'Allenamento')}</b><small>${fmtDate(w.date)} · ${w.items?.length||0} esercizi · ${fit6SessionsCount(w.items)} serie</small></div>`).join('')||'<p class="muted">Nessun allenamento registrato.</p>';
+ $('dashfood').innerHTML=state.nutrition.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(f=>`<div class="historyitem fit6-list-line"><b>${fmtDate(f.date)} · ${round(f.totals?.kcal||0)} kcal</b><small>Proteine ${round(f.totals?.protein||0)} g · Grassi ${round(f.totals?.fat||0)} g</small></div>`).join('')||'<p class="muted">Nessuna giornata registrata.</p>';
+}
+function updateExportUI(){} // Il report contiene sempre le quattro sezioni e il singolo giorno selezionato.
+function reportOptions(){
+ const d=$('reportstart').value;if(!/^\d{4}-\d{2}-\d{2}$/.test(d))throw Error('Scegli la data del report.');
+ return {mode:'day',start:d,end:d,profile:true,nutrition:true,workout:true,progress:true,scope:'upto'};
+}
+function reportData(){
+ const opts=reportOptions();const f=state.nutrition.filter(x=>x.date===opts.start);
+ return {opts,meals:f.length?[f[f.length-1]]:[],workouts:state.workouts.filter(x=>x.date===opts.start).sort((a,b)=>a.id-b.id),measures:sortedProgress().filter(p=>p.date<=opts.start),dates:[opts.start]};
+}
+function previewReport(){
+ try{
+  const r=reportData(),p=progressComparison(r.measures),weight=p.find(x=>x.key==='weight');const nut=r.meals[0],n=r.workouts.length;
+  $('reportpreview').innerHTML=`<div class="fit6-report-preview"><div><small>GIORNATA</small><b>${fmtDate(r.opts.start)}</b></div><div><small>ALLENAMENTO</small><b>${n?n+' session'+(n===1?'e':'i'):'Non registrato'}</b></div><div><small>ALIMENTAZIONE</small><b>${nut?Math.round(nut.totals?.kcal||0)+' kcal':'Non registrata'}</b></div><div><small>PROGRESSI</small><b>${weight?.first?round(weight.first.weight)+' kg → '+round(weight.last.weight)+' kg':'Nessuna misurazione'}</b></div></div>`;
+ }catch(e){toast(e.message)}
+}
+function fit6AgeAt(b,date){if(!b)return '—';const a=new Date(b+'T12:00:00'),d=new Date(date+'T12:00:00');let n=d.getFullYear()-a.getFullYear();if(d.getMonth()<a.getMonth()||(d.getMonth()===a.getMonth()&&d.getDate()<a.getDate()))n--;return n>=0&&n<110?String(n)+' anni':'—'}
+// PDF A4 integrato: informazioni in ordine fisso, senza righe ripetute per singole serie.
+function buildReportPdf(data){
+ const PW=595,PH=842,M=43,CW=PW-2*M,LOW=59;
+ const C={ink:'0.09 0.16 0.22',muted:'0.39 0.46 0.51',deep:'0.07 0.13 0.18',accent:'0.03 0.51 0.43',mint:'0.86 0.95 0.93',white:'1 1 1',stripe:'0.96 0.98 0.98',line:'0.82 0.87 0.89'};
+ const pages=[];let cmds=[],y=760;
+ const out=(s,x,yy,size=9,bold=false,color=C.ink)=>cmds.push(`BT /F${bold?2:1} ${size} Tf ${color} rg 1 0 0 1 ${x.toFixed(1)} ${yy.toFixed(1)} Tm (${pdfLiteral(s)}) Tj ET`);
+ const box=(x,yy,w,h,color)=>cmds.push(`${color} rg ${x.toFixed(1)} ${yy.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)} re f`);
+ const rule=(yy)=>cmds.push(`${C.line} RG ${M} ${yy.toFixed(1)} m ${PW-M} ${yy.toFixed(1)} l S`);
+ function startPage(){if(cmds.length)pages.push(cmds.join('\n'));cmds=[];y=760;box(0,797,PW,45,C.deep);box(M,789,CW,3,C.accent);out('FITLAB 6.0',M,815,16,true,C.white);out('DIARIO PERSONALE',PW-M-117,816,9,false,'0.69 0.85 0.83')}
+ function room(h){if(y-h<LOW)startPage()}
+ function wrap(v,w,size=8.7){
+  const max=Math.max(5,Math.floor((w-11)/(size*0.50)));const words=pdfSafeText(v??'—').split(/\s+/),a=[];let line='';
+  for(let word of words){while(word.length>max){if(line){a.push(line);line=''}a.push(word.slice(0,max));word=word.slice(max)}if((line?line.length+1:0)+word.length>max){a.push(line);line=word}else line+=(line?' ':'')+word}
+  if(line)a.push(line);return a.length?a:['—'];
+ }
+ function title(s){room(38);y-=10;out(s,M,y,11.8,true,C.accent);y-=11;rule(y);y-=12}
+ function text(s){const lines=wrap(s,CW,9);room(lines.length*13+7);for(const a of lines){out(a,M,y,9,false,C.muted);y-=13}y-=4}
+ function table(headers,rows,widths){
+  const size=headers.length>5?7.7:8.8;
+  function draw(vals,header,i){
+   const lines=vals.map((v,j)=>wrap(v,widths[j],size)),h=Math.max(23,...lines.map(z=>z.length*11+9));room(h+3);
+   box(M,y-h,CW,h,header?C.deep:i%2?C.white:C.stripe);let x=M;
+   lines.forEach((seg,j)=>{seg.forEach((t,k)=>out(t,x+7,y-15-k*11,size,header,header?C.white:C.ink));x+=widths[j]});y-=h;rule(y);
+  }
+  if(Math.abs(widths.reduce((s,x)=>s+x,0)-CW)>.01)throw Error('Errore nella tabella PDF');
+  draw(headers,true,0);
+  rows.forEach((v,i)=>{const h=Math.max(...v.map((x,j)=>wrap(x,widths[j],size).length*11+9));if(y-h<LOW){startPage();draw(headers,true,0)}draw(v,false,i)});y-=10;
+ }
+ const date=data.opts.start,p=state.profile;
+ startPage();out('REPORT DEL '+fmtDate(date),M,765,19,true,C.ink);y=735;
+ title('01  |  DATI ANAGRAFICI');
+ table(['Nome','Nascita','Età','Sesso','Altezza'],[[
+  p.name?.trim()||'Non indicato',p.birth?fmtDate(p.birth):'—',fit6AgeAt(p.birth,date),
+  p.sex==='m'?'Maschile':p.sex==='f'?'Femminile':'—',p.height?round(p.height)+' cm':'—'
+ ]],[158,103,65,102,CW-428]);
+ title('02  |  ALLENAMENTO DEL '+fmtDate(date));
+ if(!data.workouts.length)text('Nessun allenamento salvato per questo giorno.');
+ for(const w of data.workouts){
+  room(38);out(w.name||'Allenamento',M,y,11,true,C.ink);y-=17;
+  out(`${w.duration||'—'} minuti  |  circa ${Math.round(w.burn||0)} kcal attive stimate`,M,y,9,false,C.muted);y-=14;
+  const rows=(w.items||[]).map(e=>[e.name||'Esercizio',fit6Schema(e),fit6Kg(e)]);
+  if(rows.length)table(['Esercizio','Serie x ripetizioni','Carico'],rows,[253,148,CW-401]);
+  else text('Nessun esercizio presente in questa sessione.');
+ }
+ title('03  |  ALIMENTAZIONE DEL '+fmtDate(date));
+ if(!data.meals.length)text('Nessuna alimentazione salvata per questo giorno.');
+ else{
+  const meal=data.meals[0],items=meal.items||[],t=totals(items);
+  table(['Pasto','Alimento','g','kcal','P','G','C'],[
+   ...items.map(f=>[f.meal||'—',f.name||'Alimento',String(round(f.grams)),String(round(f.kcal)),String(round(f.protein)),String(round(f.fat)),String(round(f.carbs))]),
+   ['TOTALE','', '',String(round(t.kcal)),String(round(t.protein)),String(round(t.fat)),String(round(t.carbs))]
+  ],[75,180,42,56,52,52,CW-457]);
+  if(meal.target)text(`Obiettivo calorico registrato: ${round(meal.target)} kcal  |  Differenza: ${round(t.kcal-meal.target)>0?'+':''}${round(t.kcal-meal.target)} kcal`);
+ }
+ title('04  |  PROGRESSO FISICO  ·  INIZIO / '+fmtDate(date));
+ const cp=progressComparison(data.measures);
+ if(!cp.some(x=>x.first))text('Nessuna misurazione disponibile fino alla data selezionata.');
+ else{
+  const arr=cp.filter(v=>v.first).map(v=>{
+   const first=v.first?`${round(v.first[v.key])} ${v.unit}  (${fmtDate(v.first.date)})`:'—';
+   const last=v.last?`${round(v.last[v.key])} ${v.unit}  (${fmtDate(v.last.date)})`:'—';
+   const diff=v.delta===null?'—':`${v.delta>0?'+':''}${v.delta} ${v.unit}`;
+   return [v.label,first,last,diff];
+  });
+  table(['Parametro','Inizio','Alla data scelta','Variazione'],arr,[117,151,151,CW-419]);
+ }
+ if(cmds.length)pages.push(cmds.join('\n'));
+ const objects=[];const put=(id,str)=>objects[id]=str;
+ put(1,'<< /Type /Catalog /Pages 2 0 R >>');put(3,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');put(4,'<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+ const kids=[];
+ for(let i=0;i<pages.length;i++){
+  const id=5+i*2,sid=id+1;kids.push(`${id} 0 R`);
+  const footer=`BT /F1 8 Tf ${C.muted} rg 1 0 0 1 ${M} 31 Tm (${pdfLiteral('FITLAB | '+fmtDate(date)+' | '+(i+1)+' / '+pages.length)}) Tj ET`;
+  const body=pages[i]+'\n'+footer+'\n';
+  put(id,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW} ${PH}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${sid} 0 R >>`);
+  put(sid,`<< /Length ${body.length} >>\nstream\n${body}endstream`);
+ }
+ put(2,`<< /Type /Pages /Count ${kids.length} /Kids [${kids.join(' ')}] >>`);
+ let pdf='%PDF-1.4\n%FITLAB\n',offsets=[0];for(let i=1;i<objects.length;i++){offsets[i]=pdf.length;pdf+=`${i} 0 obj\n${objects[i]}\nendobj\n`}
+ const xref=pdf.length;pdf+=`xref\n0 ${objects.length}\n0000000000 65535 f \n`;
+ for(let i=1;i<objects.length;i++)pdf+=`${String(offsets[i]).padStart(10,'0')} 00000 n \n`;
+ pdf+=`trailer\n<< /Size ${objects.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+ return new Blob([pdf],{type:'application/pdf'});
+}
+
+migrateFitLab4();setupProgressForm();renderRecipeDraft();$('reportstart').value=today();updateExportUI();
+$('workdate').value=today();$('fooddate').value=today();$('exgroup').innerHTML='<option>Tutti</option>'+Object.keys(EXERCISES).map(g=>`<option>${esc(g)}</option>`).join('');renderCatalogue();renderSession();renderDashboard();renderFood();renderFoodHistory();renderWorkHistory();renderPlans();previewReport();
+</script><script>
+/* FitLab PWA: carica l'app offline dopo la prima visita HTTPS. */
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js')
+    .catch(error => console.warn('Modalità offline non attivata:', error)));
+}
+</script>
+</body></html>
